@@ -1,2 +1,7 @@
-// Auth exports - will be populated in later commits
-export {};
+// Auth exports
+export {
+  verifyPkceS256,
+  generateCodeVerifier,
+  generateCodeChallenge,
+  isLoopbackRedirectUri,
+} from "./pkce.js";
