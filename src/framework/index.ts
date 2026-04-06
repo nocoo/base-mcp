@@ -8,6 +8,7 @@ export {
   type IdOrSlug,
   type ResolveResult,
 } from "./resolve.js";
+export { createCrudHandlers, type CrudHandlers } from "./handlers.js";
 export type {
   ProjectionConfig,
   EntityContext,
