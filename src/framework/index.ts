@@ -9,6 +9,7 @@ export {
   type ResolveResult,
 } from "./resolve.js";
 export { createCrudHandlers, type CrudHandlers } from "./handlers.js";
+export { registerEntityTools, registerCustomTool } from "./register.js";
 export type {
   ProjectionConfig,
   EntityContext,
