@@ -15,3 +15,14 @@ export {
   isLoopbackHost,
   type OriginValidationResult,
 } from "./origin.js";
+export {
+  generateToken,
+  hashToken,
+  tokenPreview,
+  extractBearerToken,
+  validateMcpToken,
+  type TokenStore,
+  type TokenValidationResult,
+  type TokenValidationSuccess,
+  type TokenValidationError,
+} from "./token.js";
