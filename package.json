@@ -1,0 +1,72 @@
+{
+  "name": "@nocoo/base-mcp",
+  "version": "0.1.0-alpha.1",
+  "description": "MCP Server development framework with OAuth 2.1, Entity-Driven CRUD, and Streamable HTTP transport",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./auth": {
+      "types": "./dist/auth/index.d.ts",
+      "import": "./dist/auth/index.js"
+    },
+    "./framework": {
+      "types": "./dist/framework/index.d.ts",
+      "import": "./dist/framework/index.js"
+    },
+    "./testing": {
+      "types": "./dist/testing/index.d.ts",
+      "import": "./dist/testing/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "oauth",
+    "crud",
+    "framework"
+  ],
+  "author": "nocoo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nocoo/base-mcp.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0",
+    "@vitest/coverage-v8": "^3.0.0",
+    "zod": "^3.24.0",
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+    "typescript-eslint": "^8.0.0"
+  },
+  "packageManager": "pnpm@10.33.0"
+}
