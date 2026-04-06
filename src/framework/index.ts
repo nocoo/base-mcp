@@ -1,6 +1,13 @@
 // Framework exports
 export { ok, error } from "./response.js";
 export { projectFields } from "./projection.js";
+export {
+  validateIdOrSlug,
+  resolveEntity,
+  isResolveError,
+  type IdOrSlug,
+  type ResolveResult,
+} from "./resolve.js";
 export type {
   ProjectionConfig,
   EntityContext,
