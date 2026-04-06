@@ -10,3 +10,8 @@ export {
   type OAuthMetadata,
   type OAuthMetadataOptions,
 } from "./oauth-metadata.js";
+export {
+  validateOrigin,
+  isLoopbackHost,
+  type OriginValidationResult,
+} from "./origin.js";
