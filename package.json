@@ -33,7 +33,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint src",
+    "lint": "eslint --max-warnings=0 src",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm build"
   },
