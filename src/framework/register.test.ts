@@ -158,6 +158,39 @@ describe("registerEntityTools", () => {
     expect(result).toBeDefined();
     expect(config.dataLayer.list).toHaveBeenCalled();
   });
+
+  it("get/create/update/delete callbacks invoke their handlers", async () => {
+    const server = new McpServer({ name: "test", version: "0.0.1" });
+    const toolSpy = vi.spyOn(server, "tool");
+    const ctx = createMockContext();
+    const config = createTestConfig();
+
+    registerEntityTools(server, config, ctx);
+
+    const getCb = toolSpy.mock.calls.find((c) => c[0] === "get_widget")![3] as (
+      args: Record<string, unknown>,
+    ) => Promise<unknown>;
+    await getCb({ id: "m-1" });
+    expect(config.dataLayer.getById).toHaveBeenCalled();
+
+    const createCb = toolSpy.mock.calls.find((c) => c[0] === "create_widget")![3] as (
+      args: Record<string, unknown>,
+    ) => Promise<unknown>;
+    await createCb({ name: "x" });
+    expect(config.dataLayer.create).toHaveBeenCalled();
+
+    const updateCb = toolSpy.mock.calls.find((c) => c[0] === "update_widget")![3] as (
+      args: Record<string, unknown>,
+    ) => Promise<unknown>;
+    await updateCb({ id: "m-1", name: "y" });
+    expect(config.dataLayer.update).toHaveBeenCalled();
+
+    const deleteCb = toolSpy.mock.calls.find((c) => c[0] === "delete_widget")![3] as (
+      args: Record<string, unknown>,
+    ) => Promise<unknown>;
+    await deleteCb({ id: "m-1" });
+    expect(config.dataLayer.delete).toHaveBeenCalled();
+  });
 });
 
 describe("registerCustomTool", () => {
