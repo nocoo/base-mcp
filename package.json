@@ -55,7 +55,7 @@
   },
   "peerDependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
-    "zod": "^3.0.0"
+    "zod": "^3.25.0 || ^4.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -67,7 +67,7 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.0",
     "vitest": "^4.1.8",
-    "zod": "^3.24.0"
+    "zod": "^4.4.3"
   },
   "packageManager": "pnpm@10.33.0",
   "lint-staged": {
