@@ -23,7 +23,7 @@ export function createMockContext<TRepos>(repos: TRepos): EntityContext<TRepos> 
  */
 export function parseToolResult(result: CallToolResult): unknown {
   const textContent = result.content.find((c) => c.type === "text");
-  if (!textContent || textContent.type !== "text") return null;
+  if (textContent?.type !== "text") return null;
   try {
     return JSON.parse(textContent.text);
   } catch {
@@ -50,7 +50,7 @@ export function isToolError(result: CallToolResult): boolean {
 export function getToolErrorMessage(result: CallToolResult): string | null {
   if (!result.isError) return null;
   const textContent = result.content.find((c) => c.type === "text");
-  if (!textContent || textContent.type !== "text") return null;
+  if (textContent?.type !== "text") return null;
   return textContent.text;
 }
 

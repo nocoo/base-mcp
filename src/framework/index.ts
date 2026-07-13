@@ -1,23 +1,24 @@
 // Framework exports
-export { ok, error } from "./response.js";
+
+export { type CrudHandlers, createCrudHandlers } from "./handlers.js";
 export { projectFields } from "./projection.js";
+export { registerCustomTool, registerEntityTools } from "./register.js";
 export {
-  validateIdOrSlug,
-  resolveEntity,
-  isResolveError,
   type IdOrSlug,
+  isResolveError,
   type ResolveResult,
+  resolveEntity,
+  validateIdOrSlug,
 } from "./resolve.js";
-export { createCrudHandlers, type CrudHandlers } from "./handlers.js";
-export { registerEntityTools, registerCustomTool } from "./register.js";
+export { error, ok } from "./response.js";
 export type {
-  ProjectionConfig,
-  EntityContext,
+  CustomToolConfig,
   DataLayer,
+  EntityConfig,
+  EntityContext,
+  EntityDescriptions,
   EntityHooks,
   EntitySchemas,
-  EntityDescriptions,
-  EntityConfig,
+  ProjectionConfig,
   ToolHandler,
-  CustomToolConfig,
 } from "./types.js";

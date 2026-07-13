@@ -1,11 +1,11 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
+  extractBearerToken,
   generateToken,
   hashToken,
-  tokenPreview,
-  extractBearerToken,
-  validateMcpToken,
   type TokenStore,
+  tokenPreview,
+  validateMcpToken,
 } from "./token.js";
 
 // ---------------------------------------------------------------------------
@@ -192,9 +192,7 @@ describe("validateMcpToken", () => {
 
   it("continues even if updateLastUsed fails", async () => {
     const store = createMockStore(validToken);
-    (store.updateLastUsed as ReturnType<typeof vi.fn>).mockRejectedValue(
-      new Error("DB error"),
-    );
+    (store.updateLastUsed as ReturnType<typeof vi.fn>).mockRejectedValue(new Error("DB error"));
 
     const result = await validateMcpToken(store, "Bearer some-token");
 

@@ -7,8 +7,8 @@
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import type { EntityConfig, EntityContext, CustomToolConfig } from "./types.js";
 import { createCrudHandlers } from "./handlers.js";
+import type { CustomToolConfig, EntityConfig, EntityContext } from "./types.js";
 
 /**
  * Register CRUD tools for an entity on an MCP server.
@@ -21,7 +21,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
   config: EntityConfig<T, TRepos>,
   ctx: EntityContext<TRepos>,
 ): void {
-  const plural = config.plural ?? config.name + "s";
+  const plural = config.plural ?? `${config.name}s`;
   const handlers = createCrudHandlers(config);
 
   // ---- list ----
@@ -35,13 +35,11 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
             include: z
               .array(z.string())
               .optional()
-              .describe(
-                "Opt-in fields excluded by default. Use 'full' for all fields.",
-              ),
+              .describe("Opt-in fields excluded by default. Use 'full' for all fields."),
           }
         : {}),
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: MCP SDK tool overload cannot infer generic Args when schema is dynamic
     ((args: any) => handlers.handleList(ctx, args)) as any,
   );
 
@@ -51,7 +49,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
     config.descriptions?.get ??
       `Get a single ${config.display} by id or slug (exactly one required).`,
     { id: z.string().optional(), slug: z.string().optional() },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: MCP SDK tool overload cannot infer generic Args when schema is dynamic
     ((args: any) => handlers.handleGet(ctx, args)) as any,
   );
 
@@ -61,7 +59,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
       `create_${config.name}`,
       config.descriptions?.create ?? `Create a new ${config.display}.`,
       config.schemas?.create ?? {},
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: MCP SDK tool overload cannot infer generic Args when schema is dynamic
       ((args: any) => handlers.handleCreate(ctx, args)) as any,
     );
   }
@@ -77,7 +75,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
         slug: z.string().optional(),
         ...(config.schemas?.update ?? {}),
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: MCP SDK tool overload cannot infer generic Args when schema is dynamic
       ((args: any) => handlers.handleUpdate(ctx, args)) as any,
     );
   }
@@ -89,7 +87,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
       config.descriptions?.delete ??
         `Delete a ${config.display} by id or slug (exactly one required). Irreversible.`,
       { id: z.string().optional(), slug: z.string().optional() },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: MCP SDK tool overload cannot infer generic Args when schema is dynamic
       ((args: any) => handlers.handleDelete(ctx, args)) as any,
     );
   }
@@ -107,7 +105,7 @@ export function registerCustomTool<TRepos = unknown>(
     tool.name,
     tool.description,
     tool.schema.shape,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: MCP SDK tool overload cannot infer generic Args when schema is dynamic
     ((args: any) => tool.handler(ctx, args)) as any,
   );
 }

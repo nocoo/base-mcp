@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { getOAuthMetadata } from "./oauth-metadata.js";
 
 describe("getOAuthMetadata", () => {
@@ -30,9 +30,7 @@ describe("getOAuthMetadata", () => {
     const metadata = getOAuthMetadata("https://example.com/");
 
     expect(metadata.issuer).toBe("https://example.com");
-    expect(metadata.authorization_endpoint).toBe(
-      "https://example.com/api/mcp/authorize",
-    );
+    expect(metadata.authorization_endpoint).toBe("https://example.com/api/mcp/authorize");
   });
 
   it("supports custom basePath", () => {
@@ -40,9 +38,7 @@ describe("getOAuthMetadata", () => {
       basePath: "/oauth",
     });
 
-    expect(metadata.authorization_endpoint).toBe(
-      "https://example.com/oauth/authorize",
-    );
+    expect(metadata.authorization_endpoint).toBe("https://example.com/oauth/authorize");
     expect(metadata.token_endpoint).toBe("https://example.com/oauth/token");
   });
 
@@ -71,10 +67,7 @@ describe("getOAuthMetadata", () => {
   it("only supports authorization_code and refresh_token grants", () => {
     const metadata = getOAuthMetadata("https://example.com");
 
-    expect(metadata.grant_types_supported).toEqual([
-      "authorization_code",
-      "refresh_token",
-    ]);
+    expect(metadata.grant_types_supported).toEqual(["authorization_code", "refresh_token"]);
   });
 
   it("only supports none for token endpoint auth", () => {

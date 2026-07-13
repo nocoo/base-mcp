@@ -22,10 +22,7 @@ export type OriginValidationResult =
  * @param siteUrl - The allowed site URL (e.g., "https://example.com")
  * @returns Validation result with error details if invalid
  */
-export function validateOrigin(
-  origin: string | null,
-  siteUrl: string,
-): OriginValidationResult {
+export function validateOrigin(origin: string | null, siteUrl: string): OriginValidationResult {
   // Null origin is allowed (CLI clients, curl, etc.)
   if (!origin) return { valid: true };
 
@@ -68,9 +65,5 @@ export function validateOrigin(
  * @returns True if loopback
  */
 export function isLoopbackHost(hostname: string): boolean {
-  return (
-    hostname === "localhost" ||
-    hostname === "127.0.0.1" ||
-    hostname === "[::1]"
-  );
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "[::1]";
 }

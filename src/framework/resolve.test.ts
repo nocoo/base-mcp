@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { validateIdOrSlug, resolveEntity, isResolveError } from "./resolve.js";
+import { describe, expect, it } from "vitest";
+import { isResolveError, resolveEntity, validateIdOrSlug } from "./resolve.js";
 
 // ---------------------------------------------------------------------------
 // validateIdOrSlug
@@ -44,8 +44,7 @@ describe("validateIdOrSlug", () => {
 // ---------------------------------------------------------------------------
 
 describe("resolveEntity", () => {
-  const getById = async (id: string) =>
-    id === "id-1" ? { id: "id-1", name: "Found" } : null;
+  const getById = async (id: string) => (id === "id-1" ? { id: "id-1", name: "Found" } : null);
   const getBySlug = async (slug: string) =>
     slug === "found-slug" ? { id: "id-1", name: "Found" } : null;
 
@@ -55,11 +54,7 @@ describe("resolveEntity", () => {
   });
 
   it("resolves entity by slug", async () => {
-    const result = await resolveEntity(
-      { slug: "found-slug" },
-      getById,
-      getBySlug,
-    );
+    const result = await resolveEntity({ slug: "found-slug" }, getById, getBySlug);
     expect(result).toEqual({ id: "id-1", name: "Found" });
   });
 
@@ -69,30 +64,17 @@ describe("resolveEntity", () => {
   });
 
   it("returns error when entity not found by slug", async () => {
-    const result = await resolveEntity(
-      { slug: "missing" },
-      getById,
-      getBySlug,
-    );
+    const result = await resolveEntity({ slug: "missing" }, getById, getBySlug);
     expect(result).toEqual({ error: "Entity not found: missing" });
   });
 
   it("uses displayName in not-found error", async () => {
-    const result = await resolveEntity(
-      { id: "missing" },
-      getById,
-      getBySlug,
-      "Tag",
-    );
+    const result = await resolveEntity({ id: "missing" }, getById, getBySlug, "Tag");
     expect(result).toEqual({ error: "Tag not found: missing" });
   });
 
   it("returns error when both id and slug provided", async () => {
-    const result = await resolveEntity(
-      { id: "id-1", slug: "found-slug" },
-      getById,
-      getBySlug,
-    );
+    const result = await resolveEntity({ id: "id-1", slug: "found-slug" }, getById, getBySlug);
     expect(result).toEqual({
       error: "Provide either id or slug, not both.",
     });

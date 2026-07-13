@@ -33,7 +33,11 @@ export interface DataLayer<T, TRepos = unknown> {
   getById: (ctx: EntityContext<TRepos>, id: string) => Promise<T | null>;
   getBySlug?: (ctx: EntityContext<TRepos>, slug: string) => Promise<T | null>;
   create?: (ctx: EntityContext<TRepos>, input: Record<string, unknown>) => Promise<T>;
-  update?: (ctx: EntityContext<TRepos>, id: string, input: Record<string, unknown>) => Promise<T | null>;
+  update?: (
+    ctx: EntityContext<TRepos>,
+    id: string,
+    input: Record<string, unknown>,
+  ) => Promise<T | null>;
   delete?: (ctx: EntityContext<TRepos>, id: string) => Promise<boolean>;
 }
 
@@ -41,19 +45,22 @@ export interface DataLayer<T, TRepos = unknown> {
  * Lifecycle hooks for entity operations.
  */
 export interface EntityHooks<T, TRepos = unknown> {
-  beforeCreate?: (ctx: EntityContext<TRepos>, input: Record<string, unknown>) => Promise<Record<string, unknown>>;
+  beforeCreate?: (
+    ctx: EntityContext<TRepos>,
+    input: Record<string, unknown>,
+  ) => Promise<Record<string, unknown>>;
   afterCreate?: (ctx: EntityContext<TRepos>, result: T) => Promise<void>;
   beforeUpdate?: (
     ctx: EntityContext<TRepos>,
     id: string,
     input: Record<string, unknown>,
-    existing: T
+    existing: T,
   ) => Promise<Record<string, unknown>>;
   afterUpdate?: (
     ctx: EntityContext<TRepos>,
     id: string,
     input: Record<string, unknown>,
-    result: T
+    result: T,
   ) => Promise<void>;
   beforeDelete?: (ctx: EntityContext<TRepos>, id: string, existing: T) => Promise<void>;
   afterDelete?: (ctx: EntityContext<TRepos>, id: string) => Promise<void>;
@@ -105,7 +112,7 @@ export interface EntityConfig<T, TRepos = unknown> {
 
 export type ToolHandler<TRepos = unknown> = (
   ctx: EntityContext<TRepos>,
-  args: Record<string, unknown>
+  args: Record<string, unknown>,
 ) => Promise<CallToolResult>;
 
 export interface CustomToolConfig<TRepos = unknown> {

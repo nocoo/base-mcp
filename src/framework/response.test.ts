@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { ok, error } from "./response.js";
+import { describe, expect, it } from "vitest";
+import { error, ok } from "./response.js";
 
 describe("ok", () => {
   it("serializes data as pretty JSON in content array", () => {

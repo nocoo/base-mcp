@@ -36,8 +36,5 @@ export function createMcpServer(config: McpServerConfig): McpServer {
     prompts: capabilities.prompts ? {} : undefined,
   };
 
-  return new McpServer(
-    { name, version },
-    { capabilities: serverCapabilities },
-  );
+  return new McpServer({ name, version }, { capabilities: serverCapabilities });
 }

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createCrudHandlers } from "./handlers.js";
 import type { EntityConfig, EntityContext } from "./types.js";
 
@@ -87,9 +87,7 @@ describe("handleList", () => {
       },
     });
     const handlers = createCrudHandlers(config);
-    const ctx = createMockContext([
-      { id: "1", name: "First", content: "Long text..." },
-    ]);
+    const ctx = createMockContext([{ id: "1", name: "First", content: "Long text..." }]);
 
     const result = await handlers.handleList(ctx, {});
     const data = parseResult(result) as Array<Record<string, unknown>>;
@@ -106,9 +104,7 @@ describe("handleList", () => {
       },
     });
     const handlers = createCrudHandlers(config);
-    const ctx = createMockContext([
-      { id: "1", name: "First", content: "Long text..." },
-    ]);
+    const ctx = createMockContext([{ id: "1", name: "First", content: "Long text..." }]);
 
     const result = await handlers.handleList(ctx, { include: ["full"] });
     const data = parseResult(result) as Array<Record<string, unknown>>;
@@ -197,7 +193,7 @@ describe("handleCreate", () => {
   it("calls beforeCreate hook", async () => {
     const beforeCreate = vi.fn().mockImplementation(async (_ctx, input) => ({
       ...input,
-      name: input.name + " (modified)",
+      name: `${input.name} (modified)`,
     }));
     const config = createTestConfig({ hooks: { beforeCreate } });
     const handlers = createCrudHandlers(config);
@@ -367,11 +363,7 @@ describe("handleDelete", () => {
 
     await handlers.handleDelete(ctx, { id: "1" });
 
-    expect(beforeDelete).toHaveBeenCalledWith(
-      ctx,
-      "1",
-      expect.objectContaining({ id: "1" }),
-    );
+    expect(beforeDelete).toHaveBeenCalledWith(ctx, "1", expect.objectContaining({ id: "1" }));
   });
 
   it("calls afterDelete hook", async () => {

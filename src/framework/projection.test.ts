@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { projectFields } from "./projection.js";
 import type { ProjectionConfig } from "./types.js";
 

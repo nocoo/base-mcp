@@ -36,8 +36,7 @@ export async function verifyPkceS256(
  * @returns A random code_verifier string
  */
 export function generateCodeVerifier(length = 64): string {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
   const array = new Uint8Array(length);
   crypto.getRandomValues(array);
   return Array.from(array)
@@ -51,9 +50,7 @@ export function generateCodeVerifier(length = 64): string {
  * @param codeVerifier - The code_verifier to hash
  * @returns The base64url-encoded SHA-256 hash
  */
-export async function generateCodeChallenge(
-  codeVerifier: string,
-): Promise<string> {
+export async function generateCodeChallenge(codeVerifier: string): Promise<string> {
   const encoded = new TextEncoder().encode(codeVerifier);
   const buffer = await crypto.subtle.digest("SHA-256", encoded);
   return btoa(String.fromCharCode(...new Uint8Array(buffer)))

@@ -14,8 +14,7 @@ export type ResolveResult =
  * Both → error. Neither → error.
  */
 export function validateIdOrSlug(args: IdOrSlug): ResolveResult {
-  if (args.id && args.slug)
-    return { error: "Provide either id or slug, not both." };
+  if (args.id && args.slug) return { error: "Provide either id or slug, not both." };
   if (args.id) return { type: "id", value: args.id };
   if (args.slug) return { type: "slug", value: args.slug };
   return { error: "Either id or slug is required." };
@@ -38,8 +37,7 @@ export async function resolveEntity<T>(
 ): Promise<T | { error: string }> {
   const v = validateIdOrSlug(args);
   if ("error" in v) return v;
-  const entity =
-    v.type === "id" ? await getById(v.value) : await getBySlug(v.value);
+  const entity = v.type === "id" ? await getById(v.value) : await getBySlug(v.value);
   if (!entity) {
     const label = displayName ?? "Entity";
     return { error: `${label} not found: ${v.value}` };
@@ -50,9 +48,7 @@ export async function resolveEntity<T>(
 /**
  * Type guard to check if a resolve result is an error.
  */
-export function isResolveError<T>(
-  result: T | { error: string },
-): result is { error: string } {
+export function isResolveError<T>(result: T | { error: string }): result is { error: string } {
   return (
     typeof result === "object" &&
     result !== null &&

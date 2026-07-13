@@ -1,9 +1,9 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
-  verifyPkceS256,
-  generateCodeVerifier,
   generateCodeChallenge,
+  generateCodeVerifier,
   isLoopbackRedirectUri,
+  verifyPkceS256,
 } from "./pkce.js";
 
 // ---------------------------------------------------------------------------
@@ -140,9 +140,7 @@ describe("isLoopbackRedirectUri", () => {
   });
 
   it("returns false for spoofed hostnames", () => {
-    expect(isLoopbackRedirectUri("http://localhost.evil.com/callback")).toBe(
-      false,
-    );
+    expect(isLoopbackRedirectUri("http://localhost.evil.com/callback")).toBe(false);
   });
 
   it("returns false for custom schemes", () => {

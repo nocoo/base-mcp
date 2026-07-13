@@ -6,21 +6,18 @@
 // ---------------------------------------------------------------------------
 
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import type { EntityConfig, EntityContext } from "./types.js";
-import type { IdOrSlug } from "./resolve.js";
-import { resolveEntity, isResolveError } from "./resolve.js";
-import { ok, error } from "./response.js";
 import { projectFields } from "./projection.js";
+import type { IdOrSlug } from "./resolve.js";
+import { isResolveError, resolveEntity } from "./resolve.js";
+import { error, ok } from "./response.js";
+import type { EntityConfig, EntityContext } from "./types.js";
 
 export interface CrudHandlers<TRepos> {
   handleList: (
     ctx: EntityContext<TRepos>,
     args: Record<string, unknown>,
   ) => Promise<CallToolResult>;
-  handleGet: (
-    ctx: EntityContext<TRepos>,
-    args: IdOrSlug,
-  ) => Promise<CallToolResult>;
+  handleGet: (ctx: EntityContext<TRepos>, args: IdOrSlug) => Promise<CallToolResult>;
   handleCreate: (
     ctx: EntityContext<TRepos>,
     args: Record<string, unknown>,
@@ -29,10 +26,7 @@ export interface CrudHandlers<TRepos> {
     ctx: EntityContext<TRepos>,
     args: IdOrSlug & Record<string, unknown>,
   ) => Promise<CallToolResult>;
-  handleDelete: (
-    ctx: EntityContext<TRepos>,
-    args: IdOrSlug,
-  ) => Promise<CallToolResult>;
+  handleDelete: (ctx: EntityContext<TRepos>, args: IdOrSlug) => Promise<CallToolResult>;
 }
 
 export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
@@ -49,9 +43,8 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
     return resolveEntity(
       args,
       (id) => dataLayer.getById(ctx, id),
-      dataLayer.getBySlug
-        ? (slug) => dataLayer.getBySlug!(ctx, slug)
-        : async () => null,
+      // biome-ignore lint/style/noNonNullAssertion: guarded by the truthiness check on the preceding line
+      dataLayer.getBySlug ? (slug) => dataLayer.getBySlug!(ctx, slug) : async () => null,
       displayName,
     );
   }
@@ -78,10 +71,7 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
   }
 
   // ---- get ----
-  async function handleGet(
-    ctx: EntityContext<TRepos>,
-    args: IdOrSlug,
-  ): Promise<CallToolResult> {
+  async function handleGet(ctx: EntityContext<TRepos>, args: IdOrSlug): Promise<CallToolResult> {
     const resolved = await resolve(ctx, args);
     if (isResolveError(resolved)) return error(resolved.error);
     return ok(resolved);
@@ -97,9 +87,7 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
     }
 
     // Apply beforeCreate hook if defined
-    const input = hooks?.beforeCreate
-      ? await hooks.beforeCreate(ctx, args)
-      : args;
+    const input = hooks?.beforeCreate ? await hooks.beforeCreate(ctx, args) : args;
 
     const entity = await dataLayer.create(ctx, input);
 
@@ -108,10 +96,7 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
       try {
         await hooks.afterCreate(ctx, entity);
       } catch (err) {
-        console.error(
-          `[MCP] ${displayName} afterCreate hook failed (best-effort):`,
-          err,
-        );
+        console.error(`[MCP] ${displayName} afterCreate hook failed (best-effort):`, err);
       }
     }
 
@@ -146,10 +131,7 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
       try {
         await hooks.afterUpdate(ctx, resolved.id, businessFields, updated);
       } catch (err) {
-        console.error(
-          `[MCP] ${displayName} afterUpdate hook failed (best-effort):`,
-          err,
-        );
+        console.error(`[MCP] ${displayName} afterUpdate hook failed (best-effort):`, err);
       }
     }
 
@@ -157,10 +139,7 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
   }
 
   // ---- delete ----
-  async function handleDelete(
-    ctx: EntityContext<TRepos>,
-    args: IdOrSlug,
-  ): Promise<CallToolResult> {
+  async function handleDelete(ctx: EntityContext<TRepos>, args: IdOrSlug): Promise<CallToolResult> {
     if (!dataLayer.delete) {
       return error(`${displayName} does not support deletion`);
     }
@@ -180,10 +159,7 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
       try {
         await hooks.afterDelete(ctx, resolved.id);
       } catch (err) {
-        console.error(
-          `[MCP] ${displayName} afterDelete hook failed (best-effort):`,
-          err,
-        );
+        console.error(`[MCP] ${displayName} afterDelete hook failed (best-effort):`, err);
       }
     }
 

@@ -37,11 +37,7 @@ export function getOAuthMetadata(
   issuer: string,
   options: OAuthMetadataOptions = {},
 ): OAuthMetadata {
-  const {
-    basePath = "/api/mcp",
-    scopes = ["mcp:full"],
-    enableRegistration = true,
-  } = options;
+  const { basePath = "/api/mcp", scopes = ["mcp:full"], enableRegistration = true } = options;
 
   // Remove trailing slash from issuer
   const base = issuer.replace(/\/$/, "");

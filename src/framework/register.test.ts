@@ -3,12 +3,12 @@
 // Verifies that registerEntityTools correctly registers tools on McpServer.
 // ---------------------------------------------------------------------------
 
-import { describe, it, expect, vi } from "vitest";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
-import { registerEntityTools, registerCustomTool } from "./register.js";
-import type { EntityConfig, EntityContext, CustomToolConfig } from "./types.js";
+import { registerCustomTool, registerEntityTools } from "./register.js";
 import { ok } from "./response.js";
+import type { CustomToolConfig, EntityConfig, EntityContext } from "./types.js";
 
 // ---------------------------------------------------------------------------
 // Minimal mock entity
@@ -227,7 +227,9 @@ describe("registerCustomTool", () => {
 
     registerCustomTool(server, tool, ctx);
 
-    const callback = toolSpy.mock.calls[0][3] as (args: Record<string, unknown>) => Promise<unknown>;
+    const callback = toolSpy.mock.calls[0][3] as (
+      args: Record<string, unknown>,
+    ) => Promise<unknown>;
     await callback({ target: "foo" });
 
     expect(handler).toHaveBeenCalledWith(ctx, { target: "foo" });

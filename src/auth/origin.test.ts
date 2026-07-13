@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { validateOrigin, isLoopbackHost } from "./origin.js";
+import { describe, expect, it } from "vitest";
+import { isLoopbackHost, validateOrigin } from "./origin.js";
 
 // ---------------------------------------------------------------------------
 // validateOrigin
