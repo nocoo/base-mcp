@@ -55,6 +55,7 @@ pnpm run build
 pnpm run test
 pnpm run test:coverage
 git add package.json && git commit -m "chore: bump version"
+git push origin main
 pnpm publish --publish-branch main
 ```
 
@@ -88,8 +89,9 @@ Today: CI (pnpm, Node 22) runs `build`, `typecheck`, `lint`, `test:coverage`. No
 
 ## Operations / Release
 
-- Entry: bump `package.json` `"version"`, commit that change on `main`, then `pnpm publish --publish-branch main`. Who: npm publish rights on `@nocoo/base-mcp`.
+- Entry: bump `package.json` `"version"`, commit on `main`, `git push origin main`, wait CI green, then `pnpm publish --publish-branch main`. Who: npm publish rights on `@nocoo/base-mcp`.
 - `pnpm publish` git-checks default to branch `master`; this repo is `main`. There is no `.npmrc` `publish-branch`. Do not `--no-git-checks`.
+- Current `.husky/pre-push` runs `osv-scanner --lockfile=bun.lock` (file missing). `--no-verify` is forbidden. Do not publish a version that is not on `origin/main`. Raise: retarget that hook to `pnpm-lock.yaml` (and `pnpm run`) before the next release.
 - `prepublishOnly` runs `pnpm build`. There is no release script, changelog generator, or GitHub release step.
 - Live-check: `npm view @nocoo/base-mcp version`.
 
