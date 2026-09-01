@@ -501,6 +501,28 @@ interface EntityConfig<T, TRepos> {
 }
 ```
 
+## 开发
+
+包管理器是 **pnpm**（`packageManager`: `pnpm@10.33.0`）。仓库没有 `bun.lock`。
+
+```bash
+pnpm install
+pnpm run typecheck
+pnpm run lint
+pnpm run build
+pnpm run test
+pnpm run test:coverage
+```
+
+| 层 | 内容 | 触发时机 |
+|---|------|---------|
+| L1 | Vitest；statements/lines/functions 90%，branches 85% | CI `test:coverage` |
+| G1 | tsc + Biome（含 noSkippedTests / noFocusedTests） | CI |
+| G2 | gitleaks / osv-scanner | 未接入 CI；`.husky` 仍写 `bun run` 和缺失的 `bun.lock` |
+
+npm 包 `files` 为 `dist/` + README。`prepublishOnly` 会 `pnpm build`。
+
 ## License
 
 MIT
+
