@@ -54,6 +54,8 @@ pnpm run lint
 pnpm run build
 pnpm run test
 pnpm run test:coverage
+git add package.json && git commit -m "chore: bump version"
+pnpm publish --publish-branch main
 ```
 
 ## Verification
@@ -70,8 +72,8 @@ Today: CI (pnpm, Node 22) runs `build`, `typecheck`, `lint`, `test:coverage`. No
 | API L2 | — | N/A | — |
 | UI L3 | — | N/A | — |
 | Types / lint | tsc + Biome 0 warning | enforced | CI → `typecheck`, `lint`. tsc excludes `**/*.test.ts` |
-| G2 secrets | gitleaks | planned | pre-commit file calls `gitleaks protect --staged`; CI does not |
-| G2 deps | osv-scanner | planned | pre-push file targets missing `bun.lock`; CI does not run osv |
+| G2 secrets | gitleaks | planned | — |
+| G2 deps | osv-scanner | planned | — |
 | `.skip` / `.only` | Biome error | enforced | `biome.json`; CI `lint` |
 | Bundler | `tsc` → `dist/` | enforced | CI → `pnpm run build`; `prepublishOnly` |
 | Docs | README if public API changes | manual | human review |
@@ -86,7 +88,8 @@ Today: CI (pnpm, Node 22) runs `build`, `typecheck`, `lint`, `test:coverage`. No
 
 ## Operations / Release
 
-- Entry: bump `package.json` `"version"`, then `pnpm publish`. Who: npm publish rights on `@nocoo/base-mcp`.
+- Entry: bump `package.json` `"version"`, commit that change on `main`, then `pnpm publish --publish-branch main`. Who: npm publish rights on `@nocoo/base-mcp`.
+- `pnpm publish` git-checks default to branch `master`; this repo is `main`. There is no `.npmrc` `publish-branch`. Do not `--no-git-checks`.
 - `prepublishOnly` runs `pnpm build`. There is no release script, changelog generator, or GitHub release step.
 - Live-check: `npm view @nocoo/base-mcp version`.
 
