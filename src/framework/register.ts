@@ -21,7 +21,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
   config: EntityConfig<T, TRepos>,
   ctx: EntityContext<TRepos>,
 ): void {
-  const plural = config.plural ?? `${config.name}s`;
+  const plural = config.plural;
   const handlers = createCrudHandlers(config);
 
   // ---- list ----
