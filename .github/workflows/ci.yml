@@ -16,6 +16,7 @@ jobs:
       build: true
       build-command: "pnpm run build"
       test-command: "pnpm run test:coverage"
+      coverage-path: "coverage"
       lockfiles: "pnpm-lock.yaml"
       osv-config: "osv-scanner.toml"
       gitleaks-config: ".gitleaks.toml"
