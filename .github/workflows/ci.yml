@@ -13,10 +13,9 @@ jobs:
     with:
       package-manager: "pnpm"
       node-version: "22.23.2"
-      build: true
-      build-command: "pnpm run build"
-      test-command: "pnpm run test:coverage"
+      prepare-command: "pnpm run build"
       coverage-path: "coverage"
+      test-command: "pnpm run test:coverage"
       lockfiles: "pnpm-lock.yaml"
       osv-config: "osv-scanner.toml"
       gitleaks-config: ".gitleaks.toml"
