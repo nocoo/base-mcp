@@ -12,7 +12,7 @@ jobs:
     uses: nocoo/base-ci/.github/workflows/quality.yml@ab52d72877d386c9a8fd224e9ac868e88be90539
     with:
       package-manager: "pnpm"
-      node-version: "22.20.0"
+      node-version: "22.23.2"
       build: true
       build-command: "pnpm run build"
       test-command: "pnpm run test:coverage"
