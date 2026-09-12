@@ -5,37 +5,18 @@ on:
     branches: [main]
   push:
     branches: [main]
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  workflow_dispatch:
 
 jobs:
-  ci:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm run build
-      - name: Typecheck
-        run: pnpm run typecheck
-      - name: Lint
-        run: pnpm run lint
-      - name: Test
-        run: pnpm run test:coverage
+  quality:
+    uses: nocoo/base-ci/.github/workflows/quality.yml@ab52d72877d386c9a8fd224e9ac868e88be90539
+    with:
+      package-manager: "pnpm"
+      node-version: "22.20.0"
+      build: true
+      build-command: "pnpm run build"
+      test-command: "pnpm run test:coverage"
+      lockfiles: "pnpm-lock.yaml"
+      osv-config: "osv-scanner.toml"
+      gitleaks-config: ".gitleaks.toml"
+    secrets: inherit
