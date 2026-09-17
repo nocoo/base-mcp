@@ -518,7 +518,7 @@ pnpm run test:coverage
 |---|------|---------|
 | L1 | Vitest；statements/lines/functions 90%，branches 85% | CI `test:coverage` |
 | G1 | tsc + Biome（含 noSkippedTests / noFocusedTests） | CI |
-| G2 | gitleaks / osv-scanner | 未接入 CI；`.husky` 仍写 `bun run` 和缺失的 `bun.lock` |
+| G2 | gitleaks / osv-scanner | CI 通过固定 SHA 的 `base-ci/quality.yml` 扫描 `pnpm-lock.yaml`；本地 `.husky` 仍写 `bun run` 和缺失的 `bun.lock`，尚未正确安装 |
 
 npm 包 `files` 为 `dist/` + README。`prepublishOnly` 会 `pnpm build`。
 

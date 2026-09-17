@@ -1,108 +1,85 @@
 # base-mcp
 
-MCP server framework (`@nocoo/base-mcp`): OAuth 2.1 helpers, entity-driven CRUD tools, Streamable HTTP, testing utils.
-Profile: cli-library
-Direction: [README.md](README.md). No `docs/` tree. Frameworks must not rewrite this file.
+MCP server framework (`@nocoo/base-mcp`) with OAuth 2.1 helpers, entity CRUD tools, Streamable HTTP support and testing utilities.
+Profile: cli-library.
+Direction: [README.md](README.md). Frameworks must not rewrite this file.
 
 ## Sources of Truth
 
-This file is the **contract**. Hooks, CI, and config are **enforcement**. If they disagree, that is a failure — raise enforcement; never lower this file to a weaker hook.
+This file is the contract; hooks, CI and configuration enforce it. Raise weaker enforcement instead of lowering this contract.
 
 | Fact | Where |
 |---|---|
-| Agent handbook | this file |
-| Human docs | README.md |
-| Version | `package.json` `"version"` |
-| Enforcement | `.husky/*`, `.github/workflows/ci.yml`, `vitest.config.ts`, `biome.json` |
-| Machine rules | global `AGENTS.md`, `rules/git-commit.md` |
+| Human docs | [README.md](README.md) |
+| Version | `package.json` version; display with a `v` prefix |
+| Enforcement | `.github/workflows/ci.yml`, `vitest.config.ts`, `biome.json` |
+| Install | `packageManager: pnpm@10.33.0`, `pnpm-lock.yaml` |
+| Machine rules | Global `AGENTS.md` and `rules/` |
 | Accidents | [Retrospective.md](Retrospective.md) |
-| Env files | omit (consumers own `AUTH_URL`) |
 
 ## Project Invariants
 
-- Package manager is **pnpm** (`packageManager` `pnpm@10.33.0`, `pnpm-lock.yaml`). There is no `bun.lock`.
-- Ship `files: ["dist", "README.md"]`. `dist/` is gitignored. `prepublishOnly` runs `pnpm build`.
-- Peer deps: `@modelcontextprotocol/sdk` and `zod`. Do not add them as runtime deps.
-- OAuth discovery `/.well-known/` must be public on the consumer app. Loopback redirect URIs only (`isLoopbackRedirectUri`).
-- Coverage thresholds are 90% statements/lines/functions, 85% branches — not 95%. Excludes `src/**/*.test.ts` and `src/**/index.ts`.
-- `.husky/*` still call `bun run` and `osv-scanner --lockfile=bun.lock`. `package.json` has no `prepare` script. Do not treat those hooks as a working pnpm gate.
+- Use pnpm and its committed lockfile; never invent a `bun.lock` to satisfy stale hooks.
+- Publish `dist/` and README; `dist/` stays gitignored. `prepublishOnly` runs `pnpm build`.
+- `@modelcontextprotocol/sdk` and `zod` remain peer dependencies rather than duplicated runtime dependencies.
+- Consumers host HTTP and own credentials such as `AUTH_URL`. OAuth discovery under `/.well-known/` stays public; callback redirects must pass the loopback-only validation.
+- Preserve entity-driven projection, ID/slug resolution, response conventions and authorization helpers. Library tests must use fake credentials and local in-memory stores.
+- Existing `.husky/` files still invoke Bun and the missing `bun.lock`; no prepare script installs them. Do not describe these as a working pnpm gate.
 
 ## Stack / Layout
 
 | Component | Choice |
 |---|---|
-| Language | TypeScript 7 strict |
-| Package manager | pnpm 10 |
-| Runtime | library (Node ≥18); consumers host HTTP |
-| Lint | Biome `check --error-on-warnings .` (`noSkippedTests`/`noFocusedTests` error) |
-| Tests | Vitest L1 (90/85/90/90) |
-| Data | none |
-
-```
-src/auth/        OAuth 2.1, origin, PKCE, tokens
-src/framework/   entity CRUD tools
-src/server/      createMcpServer
-src/testing/     mock context / token store
-```
+| Language | Strict TypeScript 7; test files excluded from emitted build |
+| Runtime | Library for Node ≥18; CI uses Node 22.23.2 |
+| Install / lint | pnpm 10.33.0; Biome, zero warnings |
+| Tests | Vitest/V8; no standalone deployed application |
+| `src/auth/` | OAuth, origins, PKCE and tokens |
+| `src/framework/` | Entity CRUD tools and data adapters |
+| `src/server/`, `src/testing/` | Server factory and mock contexts/token stores |
 
 ## Commands
 
+Run from the root with pnpm 10.33.0 and a supported Node runtime. Tests need no production services or secrets.
+
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm run typecheck
 pnpm run lint
 pnpm run build
 pnpm run test
 pnpm run test:coverage
-git add package.json && git commit -m "chore: bump version"
-git push origin main
-pnpm publish --publish-branch main
 ```
+
+`build` emits the package and declarations. A passing typecheck alone is insufficient for publication.
 
 ## Verification
 
-Status: `enforced` | `planned` | `manual` | `N/A`. `enforced` Evidence = hook/CI/config/script. `planned` has no Evidence. `manual` = human checklist.
+6DQ = L1/L2/L3 + G1/G2 + D1. Status: `enforced`, `planned`, `manual`, `N/A`.
 
-Org gaps to raise later (do not lower this file): index-snapshot pre-commit; stdin-range pre-push; hooks on pnpm (not bun); G2 osv on `pnpm-lock.yaml`; gitleaks in CI; coverage 95%; `prepare` to install husky.
-
-Today: CI (pnpm, Node 22) runs `build`, `typecheck`, `lint`, `test:coverage`. No gitleaks, no osv. pre-commit is `bun run typecheck/lint/test` + `gitleaks protect --staged`. pre-push is `bun run build && test:coverage && lint && typecheck` then osv on missing `bun.lock`.
-
-| Change | Proof | Status | Evidence |
+| Dimension | Required proof | Status | Current enforcement / gap |
 |---|---|---|---|
-| Logic | L1 vitest ≥90% stmt/line/func, 85% branches | enforced | CI → `pnpm run test:coverage`; `vitest.config.ts`. pre-commit `bun run test` has no thresholds and may not run |
-| API L2 | — | N/A | — |
-| UI L3 | — | N/A | — |
-| Types / lint | tsc + Biome 0 warning | enforced | CI → `typecheck`, `lint`. tsc excludes `**/*.test.ts` |
-| G2 secrets | gitleaks | planned | — |
-| G2 deps | osv-scanner | planned | — |
-| `.skip` / `.only` | Biome error | enforced | `biome.json`; CI `lint` |
-| Bundler | `tsc` → `dist/` | enforced | CI → `pnpm run build`; `prepublishOnly` |
-| Docs | README if public API changes | manual | human review |
-| Release | version + `pnpm publish` | manual | operator; `prepublishOnly` builds |
+| L1 logic | Statements, branches, functions and lines each ≥95%; no `.skip` / `.only` | planned | CI invokes coverage but actual thresholds are 90/85/90/90; barrel/test exclusions remain. Biome forbids skipped/focused tests |
+| L2 transport | Real local HTTP exercising MCP/OAuth transport integration | planned | Current tests exercise modules/server construction; no real HTTP transport acceptance runner exists |
+| L3 user workflow | Standalone CLI or UI journey | N/A | This repository ships a library with no executable CLI or UI; consumer-facing transport behavior still requires L2 integration |
+| G1 static | Strict types and check-only lint; zero errors/warnings | enforced | CI invokes `typecheck` and `lint`; compiler excludes test files |
+| G2 security | Secret and dependency scans; missing scanner fails | enforced | Current pinned `base-ci/quality.yml` scans `pnpm-lock.yaml` with `osv-scanner.toml` and `.gitleaks.toml`; local hook repair remains planned |
+| D1 isolation | Local fake state, separate from production/daily-dev, guarded teardown | planned | Unit mocks are in-memory; a guarded per-run local transport harness is still absent |
+| Build | Emitted package/declarations | enforced | CI prepares with `pnpm run build`; `prepublishOnly` also builds |
+| Docs / release | README API and intended version review | manual | Maintainer review and pnpm publication checks |
 
-| Hook | Org bar | Status | Evidence |
-|---|---|---|---|
-| pre-commit | index snapshot for G1+L1 | planned | — |
-| pre-push | stdin ref range | planned | — |
-
-`--no-verify` forbidden on commits and branch pushes. Tag-only may skip.
+CI pins `nocoo/base-ci/.github/workflows/quality.yml@ad43150de3a2be2fa464b5cd2f921dc4fa9f8f0f`; the former claim that CI has no security scanners is obsolete.
+The checked-in pre-commit calls Bun typecheck/lint/test plus staged Gitleaks; pre-push calls Bun build/coverage/lint/typecheck plus OSV against missing `bun.lock`. They are not installed by the manifest.
+Target local gates remain planned: G1+L1 on an index snapshot in <30s; L2+G2 on the commits named by stdin push refs in <3min. Retarget and install hooks before relying on them. Never disable a configured hook to get a commit or push through.
+Hooks are check-only; `--no-verify` is forbidden on commits and branch pushes.
 
 ## Operations / Release
 
-- Entry: bump `package.json` `"version"`, commit on `main`, `git push origin main`, wait CI green, then `pnpm publish --publish-branch main`. Who: npm publish rights on `@nocoo/base-mcp`.
-- `pnpm publish` git-checks default to branch `master`; this repo is `main`. There is no `.npmrc` `publish-branch`. Do not `--no-git-checks`.
-- Current `.husky/pre-push` runs `osv-scanner --lockfile=bun.lock` (file missing). `--no-verify` is forbidden. Do not publish a version that is not on `origin/main`. Raise: retarget that hook to `pnpm-lock.yaml` (and `pnpm run`) before the next release.
-- `prepublishOnly` runs `pnpm build`. There is no release script, changelog generator, or GitHub release step.
-- Live-check: `npm view @nocoo/base-mcp version`.
+Only authorized npm maintainers publish. Review and commit the intended version, push normally to `main`, wait for CI, then use `pnpm publish --publish-branch main`; the default publish-branch is otherwise `master`.
+Do not use `--no-git-checks`, bypass broken installed hooks, or publish a version missing from `origin/main`. There is no release script, changelog generator or automatic GitHub release step.
+`prepublishOnly` builds before publication. Confirm the result with `npm view @nocoo/base-mcp version`.
 
 ## Retrospective
 
-| Kind | Where |
-|---|---|
-| Accident narrative | [Retrospective.md](Retrospective.md) |
-| Recurring project rule | one line here (cap ~10) |
-| Cross-project | nmem / global rules |
-| Checkable rule | hook or test |
-
-- Package manager is pnpm; do not add a `bun.lock` to make the current hooks look valid.
-- Coverage bar is 90/85, not 95.
+Narratives remain in [Retrospective.md](Retrospective.md); recurring rules belong here, cross-project lessons in global rules/nmem, deterministic requirements in tests/hooks.
+- Preserve the pnpm toolchain; the existing 90/85 thresholds are implementation gaps against the required four-metric 95% contract.
