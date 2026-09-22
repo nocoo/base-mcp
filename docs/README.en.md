@@ -67,7 +67,7 @@ Vitest checks authentication helpers, entity CRUD, projection and server creatio
 
 - [OAuth, HTTP and entity integration](integration.md).
 - [Public exports](../src/index.ts) and [auth entry](../src/auth/index.ts).
-- [Maintenance and publication](../CLAUDE.md).
+- [Maintenance and publication](../AGENTS.md).
 
 ## License
 

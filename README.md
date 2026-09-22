@@ -67,7 +67,7 @@ Vitest 检查认证辅助、实体 CRUD、投影和服务创建，使用假凭�
 
 - [OAuth、HTTP 与实体集成说明](docs/integration.md)。
 - [公共导出](src/index.ts)与[认证入口](src/auth/index.ts)。
-- [维护与发布说明](CLAUDE.md)。
+- [维护与发布说明](AGENTS.md)。
 
 ## 许可证
 

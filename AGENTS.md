@@ -2,7 +2,7 @@
 
 MCP server framework (`@nocoo/base-mcp`) with OAuth 2.1 helpers, entity CRUD tools, Streamable HTTP support and testing utilities.
 Profile: cli-library.
-Direction: [README.md](README.md). Frameworks must not rewrite this file.
+Human overview: [README.md](README.md). Frameworks must not rewrite this file. Maintain this root `AGENTS.md` as the only project handbook; do not create a `CLAUDE.md` alias, copy or import.
 
 ## Sources of Truth
 
@@ -55,14 +55,13 @@ pnpm run test:coverage
 
 ## Verification
 
-6DQ = L1/L2/L3 + G1/G2 + D1. Status: `enforced`, `planned`, `manual`, `N/A`.
+6DQ = L1/L2/L3 + G2 + D1; the former G1 dimension was merged into L1 on 2026-09-21. Status: `enforced`, `planned`, `manual`, `N/A`.
 
 | Dimension | Required proof | Status | Current enforcement / gap |
 |---|---|---|---|
-| L1 logic | Statements, branches, functions and lines each ≥95%; no `.skip` / `.only` | planned | CI invokes coverage but actual thresholds are 90/85/90/90; barrel/test exclusions remain. Biome forbids skipped/focused tests |
+| L1 logic (incl. former G1 static) | Statements, branches, functions and lines each ≥95%; no `.skip` / `.only`; strict types and check-only lint with zero errors/warnings | planned | CI enforces the static lane (`typecheck`, `lint`; compiler excludes test files) and invokes coverage, but actual thresholds are 90/85/90/90 with barrel/test exclusions; Biome forbids skipped/focused tests. No installed pre-commit rejection, timing or index-snapshot proof exists |
 | L2 transport | Real local HTTP exercising MCP/OAuth transport integration | planned | Current tests exercise modules/server construction; no real HTTP transport acceptance runner exists |
 | L3 user workflow | Standalone CLI or UI journey | N/A | This repository ships a library with no executable CLI or UI; consumer-facing transport behavior still requires L2 integration |
-| G1 static | Strict types and check-only lint; zero errors/warnings | enforced | CI invokes `typecheck` and `lint`; compiler excludes test files |
 | G2 security | Secret and dependency scans; missing scanner fails | enforced | Current pinned `base-ci/quality.yml` scans `pnpm-lock.yaml` with `osv-scanner.toml` and `.gitleaks.toml`; local hook repair remains planned |
 | D1 isolation | Local fake state, separate from production/daily-dev, guarded teardown | planned | Unit mocks are in-memory; a guarded per-run local transport harness is still absent |
 | Build | Emitted package/declarations | enforced | CI prepares with `pnpm run build`; `prepublishOnly` also builds |
@@ -70,7 +69,7 @@ pnpm run test:coverage
 
 CI pins `nocoo/base-ci/.github/workflows/quality.yml@ad43150de3a2be2fa464b5cd2f921dc4fa9f8f0f`; the former claim that CI has no security scanners is obsolete.
 The checked-in pre-commit calls Bun typecheck/lint/test plus staged Gitleaks; pre-push calls Bun build/coverage/lint/typecheck plus OSV against missing `bun.lock`. They are not installed by the manifest.
-Target local gates remain planned: G1+L1 on an index snapshot in <30s; L2+G2 on the commits named by stdin push refs in <3min. Retarget and install hooks before relying on them. Never disable a configured hook to get a commit or push through.
+Target local gates remain planned: unified L1 (types, check-only lint, coverage at the required thresholds) on an index snapshot in <30s; L2+G2 on the commits named by stdin push refs in <3min. Retarget and install hooks before relying on them. Never disable a configured hook to get a commit or push through.
 Hooks are check-only; `--no-verify` is forbidden on commits and branch pushes.
 
 ## Operations / Release
