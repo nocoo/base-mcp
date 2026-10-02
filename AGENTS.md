@@ -24,7 +24,7 @@ This file is the contract; hooks, CI and configuration enforce it. Raise weaker 
 - `@modelcontextprotocol/sdk` and `zod` remain peer dependencies rather than duplicated runtime dependencies.
 - Consumers host HTTP and own credentials such as `AUTH_URL`. OAuth discovery under `/.well-known/` stays public; callback redirects must pass the loopback-only validation.
 - Preserve entity-driven projection, ID/slug resolution, response conventions and authorization helpers. Library tests must use fake credentials and local in-memory stores.
-- Existing `.husky/` files still invoke Bun and the missing `bun.lock`; no prepare script installs them. Do not describe these as a working pnpm gate.
+- The `prepare` script installs Husky. Hooks invoke pnpm and scan the committed `pnpm-lock.yaml`; preserve the declared package manager.
 
 ## Stack / Layout
 
@@ -59,17 +59,17 @@ pnpm run test:coverage
 
 | Dimension | Required proof | Status | Current enforcement / gap |
 |---|---|---|---|
-| L1 logic (incl. former G1 static) | Statements, branches, functions and lines each ≥95%; no `.skip` / `.only`; strict types and check-only lint with zero errors/warnings | planned | CI enforces the static lane (`typecheck`, `lint`; compiler excludes test files) and invokes coverage, but actual thresholds are 90/85/90/90 with barrel/test exclusions; Biome forbids skipped/focused tests. No installed pre-commit rejection, timing or index-snapshot proof exists |
+| L1 logic (incl. former G1 static) | Statements, branches, functions and lines each ≥95%; no `.skip` / `.only`; strict types and check-only lint with zero errors/warnings | planned | CI enforces the static lane (`typecheck`, `lint`; compiler excludes test files) and invokes coverage, but four coverage thresholds are95% with barrel/test exclusions; Biome forbids skipped/focused tests. Pre-commit runs types/lint/coverage; timing and index-snapshot proof remain unverified |
 | L2 transport | Real local HTTP exercising MCP/OAuth transport integration | planned | Current tests exercise modules/server construction; no real HTTP transport acceptance runner exists |
 | L3 user workflow | Standalone CLI or UI journey | N/A | This repository ships a library with no executable CLI or UI; consumer-facing transport behavior still requires L2 integration |
-| G2 security | Secret and dependency scans; missing scanner fails | enforced | Current pinned `base-ci/quality.yml` scans `pnpm-lock.yaml` with `osv-scanner.toml` and `.gitleaks.toml`; local hook repair remains planned |
+| G2 security | Secret and dependency scans; missing scanner fails | enforced | Current pinned `base-ci/quality.yml` scans `pnpm-lock.yaml` with `osv-scanner.toml` and `.gitleaks.toml`; local pre-push also scans the real pnpm lockfile |
 | D1 isolation | Local fake state, separate from production/daily-dev, guarded teardown | planned | Unit mocks are in-memory; a guarded per-run local transport harness is still absent |
 | Build | Emitted package/declarations | enforced | CI prepares with `pnpm run build`; `prepublishOnly` also builds |
 | Docs / release | README API and intended version review | manual | Maintainer review and pnpm publication checks |
 
 CI pins `nocoo/base-ci/.github/workflows/quality.yml@ad43150de3a2be2fa464b5cd2f921dc4fa9f8f0f`; the former claim that CI has no security scanners is obsolete.
-The checked-in pre-commit calls Bun typecheck/lint/test plus staged Gitleaks; pre-push calls Bun build/coverage/lint/typecheck plus OSV against missing `bun.lock`. They are not installed by the manifest.
-Target local gates remain planned: unified L1 (types, check-only lint, coverage at the required thresholds) on an index snapshot in <30s; L2+G2 on the commits named by stdin push refs in <3min. Retarget and install hooks before relying on them. Never disable a configured hook to get a commit or push through.
+The installed pre-commit calls pnpm typecheck/lint/coverage plus staged Gitleaks; pre-push calls pnpm build/coverage/lint/typecheck plus OSV against `pnpm-lock.yaml`.
+Target local gates remain planned: unified L1 (types, check-only lint, coverage at the required thresholds) on an index snapshot in <30s; L2+G2 on the commits named by stdin push refs in <3min. Never disable a configured hook to get a commit or push through.
 Hooks are check-only; `--no-verify` is forbidden on commits and branch pushes.
 
 ## Operations / Release
@@ -81,4 +81,4 @@ Do not use `--no-git-checks`, bypass broken installed hooks, or publish a versio
 ## Retrospective
 
 Narratives remain in [Retrospective.md](Retrospective.md); recurring rules belong here, cross-project lessons in global rules/nmem, deterministic requirements in tests/hooks.
-- Preserve the pnpm toolchain; the existing 90/85 thresholds are implementation gaps against the required four-metric 95% contract.
+- Preserve the pnpm toolchain and four-metric95% coverage thresholds; assess remaining index-snapshot and L2 gaps separately.

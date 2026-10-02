@@ -393,3 +393,68 @@ describe("handleDelete", () => {
     expect(result.isError).toBe(true);
   });
 });
+
+describe("CRUD edge cases", () => {
+  it("resolves slugs through the configured adapter", async () => {
+    const entity = { id: "1", name: "First" };
+    const config = createTestConfig();
+    config.dataLayer.getBySlug = vi.fn().mockResolvedValue(entity);
+    const ctx = createMockContext([entity]);
+    const result = await createCrudHandlers(config).handleGet(ctx, { slug: "first" });
+    expect(parseResult(result)).toEqual(entity);
+    expect(config.dataLayer.getBySlug).toHaveBeenCalledWith(ctx, "first");
+  });
+
+  it("returns not found when slug lookup is unsupported", async () => {
+    const config = createTestConfig();
+    delete config.dataLayer.getBySlug;
+    const result = await createCrudHandlers(config).handleGet(createMockContext(), {
+      slug: "missing",
+    });
+    expect(result.isError).toBe(true);
+    expect(result.content[0]).toHaveProperty("text", "Test Item not found: missing");
+  });
+
+  it("reports an entity deleted between lookup and update", async () => {
+    const config = createTestConfig();
+    config.dataLayer.update = vi.fn().mockResolvedValue(null);
+    const ctx = createMockContext([{ id: "1", name: "First" }]);
+    const result = await createCrudHandlers(config).handleUpdate(ctx, { id: "1", name: "Next" });
+    expect(result.isError).toBe(true);
+    expect(result.content[0]).toHaveProperty("text", "Test Item not found: 1");
+  });
+
+  it("preserves a successful update when its notification fails", async () => {
+    const failure = new Error("notification unavailable");
+    const afterUpdate = vi.fn().mockRejectedValue(failure);
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    try {
+      const ctx = createMockContext([{ id: "1", name: "First" }]);
+      const handlers = createCrudHandlers(createTestConfig({ hooks: { afterUpdate } }));
+      const result = await handlers.handleUpdate(ctx, { id: "1", name: "Next" });
+      expect(parseResult(result)).toEqual({ id: "1", name: "Next" });
+      expect(ctx.repos.items[0].name).toBe("Next");
+      expect(afterUpdate).toHaveBeenCalledWith(ctx, "1", { name: "Next" }, ctx.repos.items[0]);
+      expect(spy).toHaveBeenCalledWith(expect.stringContaining("afterUpdate"), failure);
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it("preserves a successful deletion when its notification fails", async () => {
+    const failure = new Error("notification unavailable");
+    const afterDelete = vi.fn().mockRejectedValue(failure);
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    try {
+      const ctx = createMockContext([{ id: "1", name: "First" }]);
+      const handlers = createCrudHandlers(createTestConfig({ hooks: { afterDelete } }));
+      const result = await handlers.handleDelete(ctx, { id: "1" });
+      expect(parseResult(result)).toEqual({ deleted: true });
+      expect(ctx.repos.items).toEqual([]);
+      expect(afterDelete).toHaveBeenCalledWith(ctx, "1");
+      expect(spy).toHaveBeenCalledWith(expect.stringContaining("afterDelete"), failure);
+    } finally {
+      spy.mockRestore();
+    }
+  });
+});

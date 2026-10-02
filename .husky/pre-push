@@ -1,4 +1,2 @@
-bun run build && bun run test:coverage && bun run lint && bun run typecheck
-
-# G2b: dependency vulnerability scan
-osv-scanner scan --lockfile=bun.lock --config=osv-scanner.toml
+pnpm run build && pnpm run test:coverage && pnpm run lint && pnpm run typecheck
+osv-scanner scan --lockfile=pnpm-lock.yaml --config=osv-scanner.toml
