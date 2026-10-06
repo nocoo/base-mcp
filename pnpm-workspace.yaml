@@ -9,3 +9,5 @@ overrides:
   body-parser: 2.3.0
   esbuild: 0.28.1
   nanoid: 3.3.18
+  proxy-addr: 2.0.8
+  source-map-js: 1.2.2
