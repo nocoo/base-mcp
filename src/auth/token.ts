@@ -1,6 +1,4 @@
-// ---------------------------------------------------------------------------
 // OAuth Token Management Utilities
-// ---------------------------------------------------------------------------
 
 /**
  * Generate a secure random token.
@@ -56,9 +54,7 @@ export function extractBearerToken(authHeader: string | null): string | null {
   return match ? match[1] : null;
 }
 
-// ---------------------------------------------------------------------------
 // Token Validation Types
-// ---------------------------------------------------------------------------
 
 export interface TokenValidationSuccess {
   valid: true;

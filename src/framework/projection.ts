@@ -1,6 +1,4 @@
-// ---------------------------------------------------------------------------
 // Entity-Driven MCP Framework — Field Projection Engine
-// ---------------------------------------------------------------------------
 
 import type { ProjectionConfig } from "./types.js";
 

@@ -1,9 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { isLoopbackHost, validateOrigin } from "./origin.js";
 
-// ---------------------------------------------------------------------------
 // validateOrigin
-// ---------------------------------------------------------------------------
 
 describe("validateOrigin", () => {
   const siteUrl = "https://example.com";
@@ -88,9 +86,7 @@ describe("validateOrigin", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // isLoopbackHost
-// ---------------------------------------------------------------------------
 
 describe("isLoopbackHost", () => {
   it("returns true for localhost", () => {

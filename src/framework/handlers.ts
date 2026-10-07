@@ -1,9 +1,7 @@
-// ---------------------------------------------------------------------------
 // Entity-Driven MCP Framework — Generic CRUD Handler Factory
 //
 // Given an EntityConfig, produces 5 typed handler functions:
 // handleList, handleGet, handleCreate, handleUpdate, handleDelete
-// ---------------------------------------------------------------------------
 
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { projectFields } from "./projection.js";
@@ -49,7 +47,7 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
     );
   }
 
-  // ---- list ----
+  // list
   async function handleList(
     ctx: EntityContext<TRepos>,
     args: Record<string, unknown>,
@@ -70,14 +68,14 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
     return ok(items);
   }
 
-  // ---- get ----
+  // get
   async function handleGet(ctx: EntityContext<TRepos>, args: IdOrSlug): Promise<CallToolResult> {
     const resolved = await resolve(ctx, args);
     if (isResolveError(resolved)) return error(resolved.error);
     return ok(resolved);
   }
 
-  // ---- create ----
+  // create
   async function handleCreate(
     ctx: EntityContext<TRepos>,
     args: Record<string, unknown>,
@@ -103,7 +101,7 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
     return ok(entity);
   }
 
-  // ---- update ----
+  // update
   async function handleUpdate(
     ctx: EntityContext<TRepos>,
     args: IdOrSlug & Record<string, unknown>,
@@ -138,7 +136,7 @@ export function createCrudHandlers<T extends { id: string }, TRepos = unknown>(
     return ok(updated);
   }
 
-  // ---- delete ----
+  // delete
   async function handleDelete(ctx: EntityContext<TRepos>, args: IdOrSlug): Promise<CallToolResult> {
     if (!dataLayer.delete) {
       return error(`${displayName} does not support deletion`);

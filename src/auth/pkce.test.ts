@@ -6,9 +6,7 @@ import {
   verifyPkceS256,
 } from "./pkce.js";
 
-// ---------------------------------------------------------------------------
 // verifyPkceS256
-// ---------------------------------------------------------------------------
 
 describe("verifyPkceS256", () => {
   it("returns true for a valid verifier/challenge pair", async () => {
@@ -47,9 +45,7 @@ describe("verifyPkceS256", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // generateCodeVerifier
-// ---------------------------------------------------------------------------
 
 describe("generateCodeVerifier", () => {
   it("generates a string of default length 64", () => {
@@ -75,9 +71,7 @@ describe("generateCodeVerifier", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // generateCodeChallenge
-// ---------------------------------------------------------------------------
 
 describe("generateCodeChallenge", () => {
   it("generates base64url-encoded string without padding", async () => {
@@ -98,9 +92,7 @@ describe("generateCodeChallenge", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // isLoopbackRedirectUri
-// ---------------------------------------------------------------------------
 
 describe("isLoopbackRedirectUri", () => {
   it("returns true for http://localhost", () => {
