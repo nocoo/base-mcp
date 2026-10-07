@@ -1,6 +1,4 @@
-// ---------------------------------------------------------------------------
 // Origin Validation for DNS Rebinding Protection
-// ---------------------------------------------------------------------------
 
 export type OriginValidationResult =
   | { valid: true }

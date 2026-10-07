@@ -1,6 +1,4 @@
-// ---------------------------------------------------------------------------
 // Entity-Driven MCP Framework — MCP Response Builders
-// ---------------------------------------------------------------------------
 
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 

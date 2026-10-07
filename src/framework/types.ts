@@ -1,11 +1,9 @@
-// ---------------------------------------------------------------------------
 // Entity-Driven MCP Framework — Type Definitions
-// ---------------------------------------------------------------------------
 
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import type { ZodTypeAny, z } from "zod";
 
-// ---- Field projection ----
+// Field projection
 
 export interface ProjectionConfig {
   /** Fields to omit from list responses by default. */
@@ -14,7 +12,7 @@ export interface ProjectionConfig {
   groups: Record<string, string[]>;
 }
 
-// ---- Entity Configuration ----
+// Entity Configuration
 
 /**
  * Context passed to data layer functions.
@@ -108,7 +106,7 @@ export interface EntityConfig<T, TRepos = unknown> {
   hooks?: EntityHooks<T, TRepos>;
 }
 
-// ---- Tool Handler Types ----
+// Tool Handler Types
 
 export type ToolHandler<TRepos = unknown> = (
   ctx: EntityContext<TRepos>,

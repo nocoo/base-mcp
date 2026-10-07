@@ -1,6 +1,4 @@
-// ---------------------------------------------------------------------------
 // Testing Utilities for MCP Framework
-// ---------------------------------------------------------------------------
 
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import type { EntityContext } from "../framework/types.js";

@@ -2,9 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { createCrudHandlers } from "./handlers.js";
 import type { EntityConfig, EntityContext } from "./types.js";
 
-// ---------------------------------------------------------------------------
 // Test utilities
-// ---------------------------------------------------------------------------
 
 interface TestEntity {
   id: string;
@@ -59,9 +57,7 @@ function createTestConfig(
   };
 }
 
-// ---------------------------------------------------------------------------
 // handleList
-// ---------------------------------------------------------------------------
 
 describe("handleList", () => {
   it("returns all items", async () => {
@@ -124,9 +120,7 @@ describe("handleList", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // handleGet
-// ---------------------------------------------------------------------------
 
 describe("handleGet", () => {
   it("resolves entity by id", async () => {
@@ -172,9 +166,7 @@ describe("handleGet", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // handleCreate
-// ---------------------------------------------------------------------------
 
 describe("handleCreate", () => {
   it("creates entity and returns it", async () => {
@@ -248,9 +240,7 @@ describe("handleCreate", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // handleUpdate
-// ---------------------------------------------------------------------------
 
 describe("handleUpdate", () => {
   it("updates entity by id", async () => {
@@ -328,9 +318,7 @@ describe("handleUpdate", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // handleDelete
-// ---------------------------------------------------------------------------
 
 describe("handleDelete", () => {
   it("deletes entity by id", async () => {

@@ -1,7 +1,5 @@
-// ---------------------------------------------------------------------------
 // Registration Engine — Unit Tests
 // Verifies that registerEntityTools correctly registers tools on McpServer.
-// ---------------------------------------------------------------------------
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { describe, expect, it, vi } from "vitest";
@@ -10,9 +8,7 @@ import { registerCustomTool, registerEntityTools } from "./register.js";
 import { ok } from "./response.js";
 import type { CustomToolConfig, EntityConfig, EntityContext } from "./types.js";
 
-// ---------------------------------------------------------------------------
 // Minimal mock entity
-// ---------------------------------------------------------------------------
 
 interface MockEntity {
   id: string;
@@ -54,9 +50,7 @@ function createTestConfig(
   };
 }
 
-// ---------------------------------------------------------------------------
 // Tests
-// ---------------------------------------------------------------------------
 
 describe("registerEntityTools", () => {
   it("registers 5 CRUD tools with default naming", () => {

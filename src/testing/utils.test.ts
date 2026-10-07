@@ -8,9 +8,7 @@ import {
   parseToolResult,
 } from "./utils.js";
 
-// ---------------------------------------------------------------------------
 // createMockContext
-// ---------------------------------------------------------------------------
 
 describe("createMockContext", () => {
   it("creates context with given repos", () => {
@@ -32,9 +30,7 @@ describe("createMockContext", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // parseToolResult
-// ---------------------------------------------------------------------------
 
 describe("parseToolResult", () => {
   it("parses JSON from ok result", () => {
@@ -66,9 +62,7 @@ describe("parseToolResult", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // isToolError
-// ---------------------------------------------------------------------------
 
 describe("isToolError", () => {
   it("returns true for error results", () => {
@@ -82,9 +76,7 @@ describe("isToolError", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // getToolErrorMessage
-// ---------------------------------------------------------------------------
 
 describe("getToolErrorMessage", () => {
   it("returns message from error result", () => {
@@ -98,9 +90,7 @@ describe("getToolErrorMessage", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // createMockTokenStore
-// ---------------------------------------------------------------------------
 
 describe("createMockTokenStore", () => {
   it("returns null token by default", async () => {

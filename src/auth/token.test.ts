@@ -8,9 +8,7 @@ import {
   validateMcpToken,
 } from "./token.js";
 
-// ---------------------------------------------------------------------------
 // generateToken
-// ---------------------------------------------------------------------------
 
 describe("generateToken", () => {
   it("generates a 64-character hex string by default", () => {
@@ -31,9 +29,7 @@ describe("generateToken", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // hashToken
-// ---------------------------------------------------------------------------
 
 describe("hashToken", () => {
   it("returns a 64-character hex string", async () => {
@@ -55,9 +51,7 @@ describe("hashToken", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // tokenPreview
-// ---------------------------------------------------------------------------
 
 describe("tokenPreview", () => {
   it("returns first 8 characters", () => {
@@ -71,9 +65,7 @@ describe("tokenPreview", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // extractBearerToken
-// ---------------------------------------------------------------------------
 
 describe("extractBearerToken", () => {
   it("extracts token from valid Bearer header", () => {
@@ -107,9 +99,7 @@ describe("extractBearerToken", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // validateMcpToken
-// ---------------------------------------------------------------------------
 
 describe("validateMcpToken", () => {
   const validToken = {

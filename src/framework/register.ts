@@ -1,9 +1,7 @@
-// ---------------------------------------------------------------------------
 // Entity-Driven MCP Framework — Tool Registration Engine
 //
 // Reads an EntityConfig and registers all CRUD tools + extra tools on an
 // McpServer instance. This is the bridge between the framework and the SDK.
-// ---------------------------------------------------------------------------
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
@@ -24,7 +22,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
   const plural = config.plural ?? `${config.name}s`;
   const handlers = createCrudHandlers(config);
 
-  // ---- list ----
+  // list
   server.tool(
     `list_${plural}`,
     config.descriptions?.list ?? `List all ${plural}.`,
@@ -43,7 +41,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
     ((args: any) => handlers.handleList(ctx, args)) as any,
   );
 
-  // ---- get ----
+  // get
   server.tool(
     `get_${config.name}`,
     config.descriptions?.get ??
@@ -53,7 +51,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
     ((args: any) => handlers.handleGet(ctx, args)) as any,
   );
 
-  // ---- create (only if dataLayer.create exists) ----
+  // create (only if dataLayer.create exists)
   if (config.dataLayer.create) {
     server.tool(
       `create_${config.name}`,
@@ -64,7 +62,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
     );
   }
 
-  // ---- update (only if dataLayer.update exists) ----
+  // update (only if dataLayer.update exists)
   if (config.dataLayer.update) {
     server.tool(
       `update_${config.name}`,
@@ -80,7 +78,7 @@ export function registerEntityTools<T extends { id: string }, TRepos = unknown>(
     );
   }
 
-  // ---- delete (only if dataLayer.delete exists) ----
+  // delete (only if dataLayer.delete exists)
   if (config.dataLayer.delete) {
     server.tool(
       `delete_${config.name}`,

@@ -1,6 +1,4 @@
-// ---------------------------------------------------------------------------
 // OAuth 2.1 PKCE (Proof Key for Code Exchange) Verification
-// ---------------------------------------------------------------------------
 
 /**
  * Verify a PKCE S256 code_challenge against a code_verifier.

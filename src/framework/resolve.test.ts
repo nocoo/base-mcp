@@ -1,9 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { isResolveError, resolveEntity, validateIdOrSlug } from "./resolve.js";
 
-// ---------------------------------------------------------------------------
 // validateIdOrSlug
-// ---------------------------------------------------------------------------
 
 describe("validateIdOrSlug", () => {
   it("returns id result when only id is provided", () => {
@@ -39,9 +37,7 @@ describe("validateIdOrSlug", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // resolveEntity
-// ---------------------------------------------------------------------------
 
 describe("resolveEntity", () => {
   const getById = async (id: string) => (id === "id-1" ? { id: "id-1", name: "Found" } : null);
@@ -86,9 +82,7 @@ describe("resolveEntity", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // isResolveError
-// ---------------------------------------------------------------------------
 
 describe("isResolveError", () => {
   it("returns true for error objects", () => {
