@@ -1,6 +1,7 @@
+<p align="center"><img src="../assets/brand/icon-rounded.png" width="128" alt="base-mcp logo" /></p>
 <h1 align="center">base-mcp</h1>
 <p align="center">Entity CRUD, OAuth and HTTP integration utilities for MCP servers.</p>
-<p align="center"><a href="../README.md">简体中文</a></p>
+<p align="center"><a href="https://hexly.ai/projects/base-mcp">Hexly project archive</a> · <a href="../README.md">简体中文</a></p>
 
 ## What it does
 
@@ -68,6 +69,7 @@ Vitest checks authentication helpers, entity CRUD, projection and server creatio
 - [OAuth, HTTP and entity integration](integration.md).
 - [Public exports](../src/index.ts) and [auth entry](../src/auth/index.ts).
 - [Maintenance and publication](../AGENTS.md).
+- [Brand assets and usage](../assets/brand/README.md).
 
 ## License
 

@@ -1,6 +1,7 @@
+<p align="center"><img src="assets/brand/icon-rounded.png" width="128" alt="base-mcp logo" /></p>
 <h1 align="center">base-mcp</h1>
 <p align="center">为 MCP 服务提供实体 CRUD、OAuth 与 HTTP 集成工具。</p>
-<p align="center"><a href="docs/README.en.md">English</a></p>
+<p align="center"><a href="https://hexly.ai/projects/base-mcp">Hexly 项目档案</a> · <a href="docs/README.en.md">English</a></p>
 
 ## 这是什么
 
@@ -68,6 +69,7 @@ Vitest 检查认证辅助、实体 CRUD、投影和服务创建，使用假凭�
 - [OAuth、HTTP 与实体集成说明](docs/integration.md)。
 - [公共导出](src/index.ts)与[认证入口](src/auth/index.ts)。
 - [维护与发布说明](AGENTS.md)。
+- [品牌素材与使用范围](assets/brand/README.md)。
 
 ## 许可证
 
