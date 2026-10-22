@@ -35,7 +35,7 @@ Register entity data adapters and connect the MCP SDK Streamable HTTP transport.
 
 ## Development
 
-Use pnpm 10.33.0 and `pnpm-lock.yaml`; CI uses Node.js 22.23.2.
+Use pnpm 10.33.0 and `pnpm-lock.yaml`; CI uses Node.js 22.23.4.
 
 ```sh
 pnpm install --frozen-lockfile
