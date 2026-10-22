@@ -16,7 +16,7 @@
 
 ## Usage
 
-The package declares Node.js 18+. Consumers supply the SDK and Zod:
+The package declares Node.js 22+. Consumers supply the SDK and Zod:
 
 ```sh
 pnpm add @nocoo/base-mcp

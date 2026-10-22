@@ -16,7 +16,7 @@
 
 ## 使用
 
-包声明 Node.js 18+；SDK 与 Zod 由消费项目提供：
+包声明 Node.js 22+；SDK 与 Zod 由消费项目提供：
 
 ```sh
 pnpm add @nocoo/base-mcp

@@ -31,7 +31,7 @@ This file is the contract; hooks, CI and configuration enforce it. Raise weaker 
 | Component | Choice |
 |---|---|
 | Language | Strict TypeScript 7; test files excluded from emitted build |
-| Runtime | Library for Node ≥18; CI uses Node 22.23.4 |
+| Runtime | Library for Node ≥22; CI uses Node 22.23.4 |
 | Install / lint | pnpm 10.33.0; Biome, zero warnings |
 | Tests | Vitest/V8; no standalone deployed application |
 | `src/auth/` | OAuth, origins, PKCE and tokens |
