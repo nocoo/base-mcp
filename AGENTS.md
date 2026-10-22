@@ -67,7 +67,7 @@ pnpm run test:coverage
 | Build | Emitted package/declarations | enforced | CI prepares with `pnpm run build`; `prepublishOnly` also builds |
 | Docs / release | README API and intended version review | manual | Maintainer review and pnpm publication checks |
 
-CI pins `nocoo/base-ci/.github/workflows/quality.yml@ad43150de3a2be2fa464b5cd2f921dc4fa9f8f0f`; the former claim that CI has no security scanners is obsolete.
+CI pins `nocoo/base-ci/.github/workflows/quality.yml@ac635753a869cb85fad1f52aae4ccbd6119f3cae`; the former claim that CI has no security scanners is obsolete.
 The installed pre-commit calls pnpm typecheck/lint/coverage plus staged Gitleaks; pre-push calls pnpm build/coverage/lint/typecheck plus OSV against `pnpm-lock.yaml`.
 Target local gates remain planned: unified L1 (types, check-only lint, coverage at the required thresholds) on an index snapshot in <30s; L2+G2 on the commits named by stdin push refs in <3min. Never disable a configured hook to get a commit or push through.
 Hooks are check-only; `--no-verify` is forbidden on commits and branch pushes.
