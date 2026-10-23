@@ -8,14 +8,14 @@ Human overview: [README.md](README.md). Frameworks must not rewrite this file. M
 
 This file is the contract; hooks, CI and configuration enforce it. Raise weaker enforcement instead of lowering this contract.
 
-| Fact | Where |
-|---|---|
-| Human docs | [README.md](README.md) |
-| Version | `package.json` version; display with a `v` prefix |
-| Enforcement | `.github/workflows/ci.yml`, `vitest.config.ts`, `biome.json` |
-| Install | `packageManager: pnpm@10.33.0`, `pnpm-lock.yaml` |
-| Machine rules | Global `AGENTS.md` and `rules/` |
-| Accidents | [Retrospective.md](Retrospective.md) |
+| Fact          | Where                                                        |
+| ------------- | ------------------------------------------------------------ |
+| Human docs    | [README.md](README.md)                                       |
+| Version       | `package.json` version; display with a `v` prefix            |
+| Enforcement   | `.github/workflows/ci.yml`, `vitest.config.ts`, `biome.json` |
+| Install       | `packageManager: pnpm@10.33.0`, `pnpm-lock.yaml`             |
+| Machine rules | Global `AGENTS.md` and `rules/`                              |
+| Accidents     | [Retrospective.md](Retrospective.md)                         |
 
 ## Project Invariants
 
@@ -28,15 +28,15 @@ This file is the contract; hooks, CI and configuration enforce it. Raise weaker 
 
 ## Stack / Layout
 
-| Component | Choice |
-|---|---|
-| Language | Strict TypeScript 7; test files excluded from emitted build |
-| Runtime | Library for Node ≥22; CI uses Node 22.23.4 |
-| Install / lint | pnpm 10.33.0; Biome, zero warnings |
-| Tests | Vitest/V8; no standalone deployed application |
-| `src/auth/` | OAuth, origins, PKCE and tokens |
-| `src/framework/` | Entity CRUD tools and data adapters |
-| `src/server/`, `src/testing/` | Server factory and mock contexts/token stores |
+| Component                     | Choice                                                      |
+| ----------------------------- | ----------------------------------------------------------- |
+| Language                      | Strict TypeScript 7; test files excluded from emitted build |
+| Runtime                       | Library for Node ≥22; CI uses Node 22.23.4                  |
+| Install / lint                | pnpm 10.33.0; Biome, zero warnings                          |
+| Tests                         | Vitest/V8; no standalone deployed application               |
+| `src/auth/`                   | OAuth, origins, PKCE and tokens                             |
+| `src/framework/`              | Entity CRUD tools and data adapters                         |
+| `src/server/`, `src/testing/` | Server factory and mock contexts/token stores               |
 
 ## Commands
 
@@ -57,15 +57,15 @@ pnpm run test:coverage
 
 6DQ = L1/L2/L3 + G2 + D1; the former G1 dimension was merged into L1 on 2026-09-21. Status: `enforced`, `planned`, `manual`, `N/A`.
 
-| Dimension | Required proof | Status | Current enforcement / gap |
-|---|---|---|---|
-| L1 logic (incl. former G1 static) | Statements, branches, functions and lines each ≥95%; no `.skip` / `.only`; strict types and check-only lint with zero errors/warnings | planned | CI enforces the static lane (`typecheck`, `lint`; compiler excludes test files) and invokes coverage, but four coverage thresholds are95% with barrel/test exclusions; Biome forbids skipped/focused tests. Pre-commit runs types/lint/coverage; timing and index-snapshot proof remain unverified |
-| L2 transport | Real local HTTP exercising MCP/OAuth transport integration | planned | Current tests exercise modules/server construction; no real HTTP transport acceptance runner exists |
-| L3 user workflow | Standalone CLI or UI journey | N/A | This repository ships a library with no executable CLI or UI; consumer-facing transport behavior still requires L2 integration |
-| G2 security | Secret and dependency scans; missing scanner fails | enforced | Current pinned `base-ci/quality.yml` scans `pnpm-lock.yaml` with `osv-scanner.toml` and `.gitleaks.toml`; local pre-push also scans the real pnpm lockfile |
-| D1 isolation | Local fake state, separate from production/daily-dev, guarded teardown | planned | Unit mocks are in-memory; a guarded per-run local transport harness is still absent |
-| Build | Emitted package/declarations | enforced | CI prepares with `pnpm run build`; `prepublishOnly` also builds |
-| Docs / release | README API and intended version review | manual | Maintainer review and pnpm publication checks |
+| Dimension                         | Required proof                                                                                                                        | Status   | Current enforcement / gap                                                                                                                                                                                                                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| L1 logic (incl. former G1 static) | Statements, branches, functions and lines each ≥95%; no `.skip` / `.only`; strict types and check-only lint with zero errors/warnings | planned  | CI enforces the static lane (`typecheck`, `lint`; compiler excludes test files) and invokes coverage, but four coverage thresholds are95% with barrel/test exclusions; Biome forbids skipped/focused tests. Pre-commit runs types/lint/coverage; timing and index-snapshot proof remain unverified |
+| L2 transport                      | Real local HTTP exercising MCP/OAuth transport integration                                                                            | planned  | Current tests exercise modules/server construction; no real HTTP transport acceptance runner exists                                                                                                                                                                                                |
+| L3 user workflow                  | Standalone CLI or UI journey                                                                                                          | N/A      | This repository ships a library with no executable CLI or UI; consumer-facing transport behavior still requires L2 integration                                                                                                                                                                     |
+| G2 security                       | Secret and dependency scans; missing scanner fails                                                                                    | enforced | Current pinned `base-ci/quality.yml` scans `pnpm-lock.yaml` with `osv-scanner.toml` and `.gitleaks.toml`; local pre-push also scans the real pnpm lockfile                                                                                                                                         |
+| D1 isolation                      | Local fake state, separate from production/daily-dev, guarded teardown                                                                | planned  | Unit mocks are in-memory; a guarded per-run local transport harness is still absent                                                                                                                                                                                                                |
+| Build                             | Emitted package/declarations                                                                                                          | enforced | CI prepares with `pnpm run build`; `prepublishOnly` also builds                                                                                                                                                                                                                                    |
+| Docs / release                    | README API and intended version review                                                                                                | manual   | Maintainer review and pnpm publication checks                                                                                                                                                                                                                                                      |
 
 CI pins `nocoo/base-ci/.github/workflows/quality.yml@ac635753a869cb85fad1f52aae4ccbd6119f3cae`; the former claim that CI has no security scanners is obsolete.
 The installed pre-commit calls pnpm typecheck/lint/coverage plus staged Gitleaks; pre-push calls pnpm build/coverage/lint/typecheck plus OSV against `pnpm-lock.yaml`.
