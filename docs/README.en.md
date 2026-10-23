@@ -57,12 +57,12 @@ Vitest checks authentication helpers, entity CRUD, projection and server creatio
 
 ## Stack
 
-| Technology | Role |
-| --- | --- |
-| TypeScript | Public API, declarations and builds |
+| Technology   | Role                                   |
+| ------------ | -------------------------------------- |
+| TypeScript   | Public API, declarations and builds    |
 | MCP SDK, Zod | Protocol integration and input schemas |
-| pnpm, Biome | Dependencies and static checks |
-| Vitest | Module behavior and test-helper checks |
+| pnpm, Biome  | Dependencies and static checks         |
+| Vitest       | Module behavior and test-helper checks |
 
 ## Documentation
 

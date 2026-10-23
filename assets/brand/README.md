@@ -18,11 +18,11 @@
 
 ## Files and roles
 
-| Repository path | Pixels | Role | SHA-256 |
-| --- | --- | --- | --- |
-| `logo.png` | 1024 x 1024 | Canonical transparent foreground; small UI and browser source | `cef05efbfb2bd02d5fe6661be8cacde2f6b474e5f90a2e75ab6a47baef67d396` |
-| `assets/brand/icon.png` | 1024 x 1024 | Square presentation; large artwork only | `9d3fecaab9d49a73ccff8e82ddc6218ca2fbddd618ca3f317fd2183dda44b878` |
-| `assets/brand/icon-rounded.png` | 1024 x 1024 | Rounded presentation; both README headers at 128 CSS px | `ad19b678de65306168506f45516f34742e5b1023a4e7b851fca2a1946b14ccb8` |
+| Repository path                 | Pixels      | Role                                                          | SHA-256                                                            |
+| ------------------------------- | ----------- | ------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `logo.png`                      | 1024 x 1024 | Canonical transparent foreground; small UI and browser source | `cef05efbfb2bd02d5fe6661be8cacde2f6b474e5f90a2e75ab6a47baef67d396` |
+| `assets/brand/icon.png`         | 1024 x 1024 | Square presentation; large artwork only                       | `9d3fecaab9d49a73ccff8e82ddc6218ca2fbddd618ca3f317fd2183dda44b878` |
+| `assets/brand/icon-rounded.png` | 1024 x 1024 | Rounded presentation; both README headers at 128 CSS px       | `ad19b678de65306168506f45516f34742e5b1023a4e7b851fca2a1946b14ccb8` |
 
 Use the same transparent foreground on light and dark surfaces. Do not add a
 background tile, corner mask, filter, recoloring or crop to small UI/browser

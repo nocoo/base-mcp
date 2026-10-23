@@ -61,11 +61,11 @@ const PUBLIC_PATHS = [
   "/login",
   "/terms",
   "/privacy",
-  "/.well-known/",  // OAuth metadata - must be public
+  "/.well-known/", // OAuth metadata - must be public
 ];
 
 function isPublicPath(pathname: string): boolean {
-  return PUBLIC_PATHS.some(p => pathname === p || pathname.startsWith(p));
+  return PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(p));
 }
 ```
 
@@ -94,13 +94,16 @@ export async function POST(request: Request) {
     grant_types: body.grant_types ?? ["authorization_code"],
   });
 
-  return jsonResponse({
-    client_id: client.client_id,
-    client_name: client.client_name,
-    redirect_uris: JSON.parse(client.redirect_uris),
-    grant_types: JSON.parse(client.grant_types),
-    token_endpoint_auth_method: "none",
-  }, 201);
+  return jsonResponse(
+    {
+      client_id: client.client_id,
+      client_name: client.client_name,
+      redirect_uris: JSON.parse(client.redirect_uris),
+      grant_types: JSON.parse(client.grant_types),
+      token_endpoint_auth_method: "none",
+    },
+    201,
+  );
 }
 ```
 
@@ -230,10 +233,7 @@ export async function POST(request: Request) {
   }
 
   // Step 2: Validate Bearer token
-  const authResult = await validateMcpToken(
-    db,
-    request.headers.get("authorization"),
-  );
+  const authResult = await validateMcpToken(db, request.headers.get("authorization"));
   if (!authResult.valid) {
     return errorResponse(authResult.error, authResult.status);
   }
@@ -383,14 +383,11 @@ import {
   registerEntityTools,
   registerCustomTool,
   createCrudHandlers,
-
   // Response builders
   ok,
   error,
-
   // Field projection
   projectFields,
-
   // ID/Slug resolution
   validateIdOrSlug,
   resolveEntity,
@@ -407,14 +404,11 @@ import {
   generateCodeVerifier,
   generateCodeChallenge,
   isLoopbackRedirectUri,
-
   // OAuth Metadata
   getOAuthMetadata,
-
   // Origin Validation
   validateOrigin,
   isLoopbackHost,
-
   // Token Management
   generateToken,
   hashToken,
@@ -440,9 +434,9 @@ import {
 
 ```typescript
 interface EntityConfig<T, TRepos> {
-  name: string;           // Singular name (e.g., "product")
-  display: string;        // Human-readable name
-  plural: string;         // Plural name for list tool
+  name: string; // Singular name (e.g., "product")
+  display: string; // Human-readable name
+  plural: string; // Plural name for list tool
 
   dataLayer: {
     list: (ctx, opts) => Promise<T[]>;
