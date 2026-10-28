@@ -1,6 +1,6 @@
 {
   "name": "@nocoo/base-mcp",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "MCP Server development framework with OAuth 2.1, Entity-Driven CRUD, and Streamable HTTP transport",
   "type": "module",
   "main": "./dist/index.js",
