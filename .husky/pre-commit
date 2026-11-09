@@ -1,4 +1,74 @@
+# === Quality Gate: pre-commit ===
+# L1 (6DQ): checks the Git index snapshot, not the working tree.
+set -e
+
+command -v git >/dev/null 2>&1 || {
+	echo "pre-commit: git is required" >&2
+	exit 1
+}
+command -v pnpm >/dev/null 2>&1 || {
+	echo "pre-commit: pnpm is required" >&2
+	exit 1
+}
+command -v gitleaks >/dev/null 2>&1 || {
+	echo "pre-commit: gitleaks is required" >&2
+	exit 1
+}
+
+snapshot=
+hook_cache=
+cleanup() {
+	status=$?
+	trap - EXIT INT TERM HUP
+	if [ -n "$snapshot" ]; then
+		rm -rf "$snapshot" || :
+		snapshot=
+	fi
+	if [ -n "$hook_cache" ]; then
+		rm -rf "$hook_cache" || :
+		hook_cache=
+	fi
+	exit "$status"
+}
+trap cleanup EXIT
+trap "exit 130" INT
+trap "exit 143" TERM
+trap "exit 129" HUP
+
+snapshot=$(mktemp -d "${TMPDIR:-/tmp}/base-mcp-index-XXXXXX")
+# gitleaks reads the commit index. Strip Git's hook environment only after it.
+gitleaks protect --staged --no-banner
+git checkout-index --all --prefix="$snapshot/"
+repo=$(git rev-parse --show-toplevel)
+
+if [ ! -d "$repo/node_modules" ]; then
+	echo "pre-commit: node_modules is required; run pnpm install --frozen-lockfile" >&2
+	exit 1
+fi
+if [ ! -f "$snapshot/package.json" ] || [ ! -f "$snapshot/pnpm-lock.yaml" ]; then
+	echo "pre-commit: staged package.json and pnpm-lock.yaml are required" >&2
+	exit 1
+fi
+if ! cmp -s "$snapshot/package.json" "$repo/package.json" || ! cmp -s "$snapshot/pnpm-lock.yaml" "$repo/pnpm-lock.yaml"; then
+	echo "pre-commit: staged package.json/pnpm-lock.yaml must match the installed worktree copies" >&2
+	exit 1
+fi
+
+mkdir "$snapshot/node_modules"
+for entry in "$repo/node_modules"/*; do
+	[ -e "$entry" ] || continue
+	ln -s "$entry" "$snapshot/node_modules/${entry##*/}"
+done
+ln -s "$repo/node_modules/.bin" "$snapshot/node_modules/.bin"
+mkdir -p "$snapshot/node_modules/.vite" "$snapshot/node_modules/.vitest"
+hook_cache=$(mktemp -d "${TMPDIR:-/tmp}/base-mcp-hook-cache-XXXXXX")
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_PREFIX
+unset GIT_OBJECT_DIRECTORY GIT_ALTERNATE_OBJECT_DIRECTORIES
+export XDG_CACHE_HOME="$hook_cache"
+export XDG_STATE_HOME="$hook_cache"
+PATH="$snapshot/node_modules/.bin:$PATH"
+cd "$snapshot"
+
 pnpm run typecheck
 pnpm run lint
 pnpm run test:coverage
-gitleaks protect --staged --no-banner
