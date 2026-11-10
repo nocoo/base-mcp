@@ -54,7 +54,7 @@
     "url": "https://github.com/nocoo/base-mcp.git"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=26"
   },
   "peerDependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
