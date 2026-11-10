@@ -60,6 +60,7 @@ for entry in "$repo/node_modules"/*; do
 	ln -s "$entry" "$snapshot/node_modules/${entry##*/}"
 done
 ln -s "$repo/node_modules/.bin" "$snapshot/node_modules/.bin"
+ln -s "$repo/node_modules/.pnpm" "$snapshot/node_modules/.pnpm"
 mkdir -p "$snapshot/node_modules/.vite" "$snapshot/node_modules/.vitest"
 hook_cache=$(mktemp -d "${TMPDIR:-/tmp}/base-mcp-hook-cache-XXXXXX")
 unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_PREFIX
