@@ -47,6 +47,7 @@ export function GET() {
 ```
 
 The metadata includes:
+
 - `authorization_endpoint`: `/api/mcp/authorize`
 - `token_endpoint`: `/api/mcp/token`
 - `registration_endpoint`: `/api/mcp/register`
@@ -297,6 +298,7 @@ export function McpConfigPage() {
 ```
 
 **Key principles:**
+
 - Never hardcode domains - derive from `window.location`
 - Use `type: "http"` for Claude Code (supports Streamable HTTP natively)
 - Use `mcp-remote` bridge for Claude Desktop (requires stdio)
