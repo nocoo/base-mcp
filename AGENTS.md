@@ -81,4 +81,5 @@ Do not use `--no-git-checks`, bypass broken installed hooks, or publish a versio
 ## Retrospective
 
 Narratives remain in [Retrospective.md](Retrospective.md); recurring rules belong here, cross-project lessons in global rules/nmem, deterministic requirements in tests/hooks.
+
 - Preserve the pnpm toolchain and four-metric 95% coverage thresholds; assess remaining L2 and pre-push snapshot gaps separately.

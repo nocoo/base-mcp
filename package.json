@@ -1,6 +1,6 @@
 {
   "name": "@nocoo/base-mcp",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "MCP Server development framework with OAuth 2.1, Entity-Driven CRUD, and Streamable HTTP transport",
   "type": "module",
   "main": "./dist/index.js",
@@ -61,13 +61,13 @@
     "zod": "^3.25.0 || ^4.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.3",
+    "@biomejs/biome": "2.6.6",
     "@modelcontextprotocol/sdk": "1.32.2",
     "@types/node": "^25.9.2",
-    "@vitest/coverage-v8": "5.0.5",
+    "@vitest/coverage-v8": "5.1.0",
     "husky": "^9.1.7",
     "typescript": "^7.0.2",
-    "vitest": "5.0.5",
+    "vitest": "5.1.0",
     "zod": "4.6.7"
   },
   "packageManager": "pnpm@10.33.0"
