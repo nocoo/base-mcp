@@ -16,7 +16,7 @@
 
 ## 使用
 
-包声明 Node.js 22+；SDK 与 Zod 由消费项目提供：
+包声明 Node.js 26+；SDK 与 Zod 由消费项目提供：
 
 ```sh
 pnpm add @nocoo/base-mcp
@@ -35,7 +35,7 @@ const metadata = getOAuthMetadata("https://my-app.example");
 
 ## 开发
 
-使用 pnpm 10.33.0 与 `pnpm-lock.yaml`；CI 使用 Node.js 22.23.4。
+使用 pnpm 10.33.0 与 `pnpm-lock.yaml`；CI 使用 Node.js 26.12.1。
 
 ```sh
 pnpm install --frozen-lockfile
