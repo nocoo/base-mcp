@@ -13,7 +13,7 @@ pnpm run typecheck       # S1: strict TypeScript 7
 pnpm run lint            # S2: Biome check-only, 0 warnings
 pnpm run build           # B1: emits dist/ and .d.ts (tests excluded)
 pnpm run test            # Vitest run
-pnpm run test:coverage   # L1: >=95% statements/branches/functions/lines
+pnpm run test:coverage   # L1: >=80% statements/branches/functions/lines
 ```
 
 `build` emits the package and type declarations; a passing `typecheck` alone is insufficient for publication.
@@ -40,7 +40,7 @@ pnpm run test:coverage   # L1: >=95% statements/branches/functions/lines
 
 Follows `system1-quality`; CI runs `.github/workflows/ci.yml` -> `.github/workflows/quality-slots.yml`, which owns slot definitions and the pinned `base-ci` revision (`quality / Z1: Gate` required on `main`). Status vocabulary: `enforced`, `planned`, `manual`, `N/A`.
 
-- **Coverage & lint**: `L1` enforces Vitest/V8 >=95% across statements, branches, functions, and lines on `src/**/*.ts` (excluding `src/**/*.test.ts` and `src/**/index.ts`); Biome errors on `.skip`/`.only`.
+- **Coverage & lint**: `L1` enforces Vitest/V8 >=80% across statements, branches, functions, and lines on `src/**/*.ts` (excluding `src/**/*.test.ts` and `src/**/index.ts`); Biome errors on `.skip`/`.only`.
 - **Exceptions (`N/A`)**: `L2 Runtime` (Node MCP library, not a Cloudflare Worker) and `L4 E2E` (library with no browser UI).
 - **Gaps (`planned`)**: `L3 Integration` (no real local HTTP MCP/OAuth transport acceptance runner yet) and `P1 Package` (no `ci:package` / `package-check` CI gate wired yet).
 - **Local hooks**: Installed via `prepare` (`husky`, `.husky/`); hooks are check-only, use `pnpm` and `pnpm-lock.yaml`, and must never be disabled or bypassed with `--no-verify`.

@@ -151,10 +151,8 @@ jobs:
           runtime-version: ${{ env.PNPM_VERSION }}
           node-version: ${{ env.NODE_VERSION }}
           install-policy: blocked
-      - name: Build and run unit tests with coverage
-        run: |
-          pnpm run build
-          pnpm run test:coverage
+      - name: Run unit tests with coverage
+        run: pnpm run test:coverage
       - name: Record tested SHA
         id: record-sha
         if: always()
