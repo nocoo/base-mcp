@@ -38,7 +38,7 @@ pnpm run test:coverage   # L1: >=80% statements/branches/functions/lines
 
 ## Quality & Local Gates
 
-Follows `system1-quality`; CI runs `.github/workflows/ci.yml` -> `.github/workflows/quality-slots.yml`, which owns slot definitions and the pinned `base-ci` revision (`quality / Z1: Gate` required on `main`). Status vocabulary: `enforced`, `planned`, `manual`, `N/A`.
+Follows `system1-quality`; CI runs `.github/workflows/pipeline.yml` -> `.github/workflows/quality-slots.yml`, which owns slot definitions and the pinned `base-ci` (`v2026.24`) revision (`quality / Z1: Gate` required on `main`). No automated CD workflow: releases use local `npm publish` / `pnpm publish` only. Status vocabulary: `enforced`, `planned`, `manual`, `N/A`.
 
 - **Coverage & lint**: `L1` enforces Vitest/V8 >=80% across statements, branches, functions, and lines on `src/**/*.ts` (excluding `src/**/*.test.ts` and `src/**/index.ts`); Biome errors on `.skip`/`.only`.
 - **Exceptions (`N/A`)**: `L2 Runtime` (Node MCP library, not a Cloudflare Worker) and `L4 E2E` (library with no browser UI).
