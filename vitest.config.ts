@@ -15,16 +15,20 @@ export default defineConfig({
       exclude: [
         // Test files themselves are not subject under test.
         "src/**/*.test.ts",
+        // Ambient type declarations.
+        "**/*.d.ts",
+        // Pure type definition modules.
+        "src/**/types.ts",
         // Barrel files re-export symbols and contain no executable logic
         // worth covering; behavior is exercised through the modules they
         // re-export.
         "src/**/index.ts",
       ],
       thresholds: {
-        lines: 80,
-        branches: 80,
-        functions: 80,
-        statements: 80,
+        lines: 90,
+        branches: 85,
+        functions: 90,
+        statements: 90,
       },
     },
   },
